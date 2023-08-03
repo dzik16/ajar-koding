@@ -9,14 +9,16 @@ import { useLocation } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { getDetailMateriSiswaByID, updateStep } from '../../../api/Request/materi.siswa.api'
 import { useIsMateri } from '../context/isMateriProvider'
+import Swal from 'sweetalert2'
 
 type Props = {
   className: string,
   setIsLoading: (isLoading: boolean) => void,
   isLoading: boolean
+  rangkuman: string
 }
 
-const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading }) => {
+const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading, rangkuman }) => {
   const [materi, setMateri] = useState<DataMateri[]>(materiOperator)
   const { currentPage, setPage } = usePagination()
   const [materiParent, setMateriParent] = useState<string>("")
@@ -39,7 +41,7 @@ const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading }
         setIsMateri(true)
       })
     }
-  }, [uuid, idMateri])
+  }, [uuid, idMateri, currentPage])
 
   useEffect(() => {
     // @ts-ignore
@@ -67,19 +69,51 @@ const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading }
       setIsLoading(true)
       if (uuid && idMateri) {
         const res = await getDetailMateriSiswaByID(uuid, idMateri)
-        console.log(page, res.step);
         if (res) {
-          if (page - res.step === 1) {
-            const resUpdateStep = await updateStep(uuid, idMateri, page)
-            if (resUpdateStep) {
-              setDetailMateri(res)
+          if (materi[0].materi.isiMateri[currentPage - 1].type !== "rangkuman") {
+            if (page - res.step === 1) {
+              const resUpdateStep = await updateStep(uuid, idMateri, page)
+              if (resUpdateStep) {
+                setDetailMateri(res)
+                setPage(page)
+              }
+            } else if (page - res.step > 1) {
+              const swalSuccess = Swal.mixin({
+                customClass: {
+                  confirmButton: 'btn btn-danger',
+                },
+                buttonsStyling: false,
+              })
+              swalSuccess
+                .fire({
+                  icon: 'warning',
+                  confirmButtonText: 'Dismiss',
+                  html: `<h3 style="text-align:center; font-weight:bold; color:gray;'">Eits gaboleh loncat ya🤪</h3>`,
+                  reverseButtons: true,
+                })
+            } else if (page - res.step < 1) {
               setPage(page)
+              setSteps(res.step)
             }
-          } else if (page - res.step > 1) {
-            console.log("kebanyakan");
-          } else if (page - res.step < 1) {
+          } else if (materi[0].materi.isiMateri[currentPage - 1].type === "rangkuman" && page - res.step < 1) {
             setPage(page)
             setSteps(res.step)
+          } else if (materi[0].materi.isiMateri[currentPage - 1].type === "rangkuman" && page - res.step === 1 && rangkuman !== "") {
+            console.log("masuk");
+          } else {
+            const swalSuccess = Swal.mixin({
+              customClass: {
+                confirmButton: 'btn btn-danger',
+              },
+              buttonsStyling: false,
+            })
+            swalSuccess
+              .fire({
+                icon: 'warning',
+                confirmButtonText: 'Dismiss',
+                html: `<h3 style="text-align:center; font-weight:bold; color:gray;'">Silahkan masukan rangkumannya dulu yaa!🫣</h3>`,
+                reverseButtons: true,
+              })
           }
         }
         setIsLoading(false)

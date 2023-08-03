@@ -8,12 +8,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getDetailMateriSiswaByID, updateFinishModul, updateStep } from '../../../api/Request/materi.siswa.api';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useIsMateri } from '../context/isMateriProvider';
+import Swal from 'sweetalert2';
 
 type Props = {
   setIsLoading: (isLoading: boolean) => void
+  rangkuman: string
 }
 
-const Footer: FC<Props> = ({ setIsLoading }) => {
+const Footer: FC<Props> = ({ setIsLoading, rangkuman }) => {
   const { classes } = useLayout();
   const [materi, setMateri] = useState<DataMateri[]>(materiOperator)
   const page = usePagination()
@@ -88,13 +90,35 @@ const Footer: FC<Props> = ({ setIsLoading }) => {
         setIsLoading(true)
         try {
           const res = await getDetailMateriSiswaByID(uuid, idMateri)
-          if (pages - res.step === 1) {
-            const resUpdateStep = await updateStep(uuid, idMateri, pages)
-            if (resUpdateStep) {
+          if (res) {
+            if (materi[0].materi.isiMateri[page.currentPage - 1].type !== "rangkuman") {
+              if (pages - res.step === 1) {
+                const resUpdateStep = await updateStep(uuid, idMateri, pages)
+                if (resUpdateStep) {
+                  page.setPage(pages)
+                }
+              } else {
+                page.setPage(pages)
+              }
+            } else if (materi[0].materi.isiMateri[page.currentPage - 1].type === "rangkuman" && pages - res.step < 1) {
               page.setPage(pages)
+            } else if (materi[0].materi.isiMateri[page.currentPage - 1].type === "rangkuman" && pages - res.step === 1 && rangkuman !== "") {
+              console.log("masuk");
+            } else {
+              const swalSuccess = Swal.mixin({
+                customClass: {
+                  confirmButton: 'btn btn-danger',
+                },
+                buttonsStyling: false,
+              })
+              swalSuccess
+                .fire({
+                  icon: 'warning',
+                  confirmButtonText: 'Dismiss',
+                  html: `<h3 style="text-align:center; font-weight:bold; color:gray;'">Silahkan masukan rangkumannya dulu yaa!🫣</h3>`,
+                  reverseButtons: true,
+                })
             }
-          } else {
-            page.setPage(pages)
           }
           setIsLoading(false)
         } catch (error) {

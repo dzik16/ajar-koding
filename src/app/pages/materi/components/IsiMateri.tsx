@@ -14,16 +14,17 @@ import { getDetailMateriSiswaByID } from '../../../api/Request/materi.siswa.api'
 
 type Props = {
   className: string,
+  setRangkuman: (rangkuman: string) => void,
+  rangkuman: string,
   isLoading?: boolean
 }
 
-const IsiMateri: React.FC<Props> = ({ className, isLoading }) => {
+const IsiMateri: React.FC<Props> = ({ className, isLoading, setRangkuman, rangkuman }) => {
   const page = usePagination()
   // const [isLoading, setIsLoading] = useState(false);
   const currentPageTitleModul = useTitleModul()
   const [materi, setMateri] = useState<DataMateri[]>(materiOperator)
   const currentPageExample = useExample()
-  const [rangkuman, setRangkuman] = useState<string>("")
   const [materiParent, setMateriParent] = useState<string>("")
   const [idMateri, setIdMateri] = useState<string>("")
   // @ts-ignore
@@ -52,7 +53,9 @@ const IsiMateri: React.FC<Props> = ({ className, isLoading }) => {
   }, [materiParent, materi])
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (materi[currentPageTitleModul.currentPageTitleModul - 1].materi.isiMateri[page.currentPage - 1].type !== "rangkuman") {
+      window.scrollTo(0, 0);
+    }
   }, [page]);
 
   return (
@@ -146,12 +149,12 @@ const IsiMateri: React.FC<Props> = ({ className, isLoading }) => {
                     }}
                   />
                 </div>
-                <button
+                {/* <button
                   className={`btn mt-10 ${rangkuman !== "" ? "btn-primary" : "btn-secondary"} w-200px`}
                   disabled={rangkuman !== "" ? false : true}
                 >
                   Submit
-                </button>
+                </button> */}
               </div>
               :
               <div className={`pe-10 ${className}`}>

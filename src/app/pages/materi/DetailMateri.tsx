@@ -19,6 +19,7 @@ const DetailMateri = () => {
   const [idMateri, setIdMateri] = useState<string>("")
   const [uuid, setUuid] = useState<string | undefined>("")
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [rangkuman, setRangkuman] = useState<string>("")
 
   useEffect(() => {
     //@ts-ignore
@@ -93,7 +94,7 @@ const DetailMateri = () => {
           <div className='row p-0'>
             <div id="materi" className='col-xl-9 card-header'>
               {/* <h1>Tujuan Pembelajaran</h1> */}
-              <IsiMateri className='card-xxl-stretch mb-xl-3 w-100' isLoading={isLoading} />
+              <IsiMateri className='card-xxl-stretch mb-xl-3 w-100' isLoading={isLoading} setRangkuman={setRangkuman} rangkuman={rangkuman} />
             </div>
             <div id="progress" className='col-xl-3 position-fixed mb-xl-3 border border-secondary border-2 rounded'
               style={{ right: '40px', maxHeight: '75%', overflow: 'auto' }}>
@@ -103,9 +104,9 @@ const DetailMateri = () => {
                 </h3>
               </div>
               <div className='mb-10 border-secondary' style={{ borderTop: '2px solid', margin: '10px 0' }}></div>
-              <AccordionMateri className='pt-10 pb-10' setIsLoading={setIsLoading} isLoading={isLoading} />
+              <AccordionMateri className='pt-10 pb-10' setIsLoading={setIsLoading} isLoading={isLoading} rangkuman={rangkuman} />
             </div>
-            <Footer setIsLoading={setIsLoading} />
+            <Footer setIsLoading={setIsLoading} rangkuman={rangkuman} />
           </div>
         </ExampleProvider>
       </PaginationProvider>
