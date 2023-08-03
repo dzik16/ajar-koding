@@ -3,9 +3,9 @@ import React, { FC, useEffect, useState } from 'react';
 import { toAbsoluteUrl } from '../../../../_molekul/helpers';
 import { useLayout } from '../../../../_molekul/layout/core';
 import { usePagination } from '../context/materiProvider';
-import { DataMateri, materiCase, materiIfElse, materiIfThen, materiNestedIf, materiOperator } from '../../../interface/materi/materi.interface';
+import { DataMateri, DetailMateriTypeResponse, HasilSoalType, materiCase, materiIfElse, materiIfThen, materiNestedIf, materiOperator } from '../../../interface/materi/materi.interface';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getDetailMateriSiswaByID, updateFinishModul, updateRangkuman, updateStep } from '../../../api/Request/materi.siswa.api';
+import { getDetailMateriSiswaByID, updateFinishModul, updateRangkuman, updateSoal, updateStep } from '../../../api/Request/materi.siswa.api';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useIsMateri } from '../context/isMateriProvider';
 import Swal from 'sweetalert2';
@@ -15,9 +15,10 @@ type Props = {
   rangkuman: string
   setResRangkuman: (resRangkuman: string) => void,
   resRangkuman: string
+  hasilSoal: HasilSoalType[]
 }
 
-const Footer: FC<Props> = ({ setIsLoading, rangkuman, setResRangkuman, resRangkuman }) => {
+const Footer: FC<Props> = ({ setIsLoading, rangkuman, setResRangkuman, resRangkuman, hasilSoal }) => {
   const { classes } = useLayout();
   const [materi, setMateri] = useState<DataMateri[]>(materiOperator)
   const page = usePagination()
@@ -29,6 +30,7 @@ const Footer: FC<Props> = ({ setIsLoading, rangkuman, setResRangkuman, resRangku
   const auth = getAuth()
   const [uuid, setUuid] = useState<string | undefined>("")
   const { setIsMateri } = useIsMateri()
+  const [detailMateri, setDataMateri] = useState<DetailMateriTypeResponse>()
 
   useEffect(() => {
     //@ts-ignore
@@ -65,7 +67,13 @@ const Footer: FC<Props> = ({ setIsLoading, rangkuman, setResRangkuman, resRangku
     try {
       if (uid && id) {
         const res = await getDetailMateriSiswaByID(uid, id)
-        page.setPage(res.step)
+        if (res.status.toLowerCase() !== "selesai") {
+          setDataMateri(res)
+          page.setPage(res.step)
+        } else {
+          setDataMateri(res)
+          page.setPage(1)
+        }
         setIsLoading(false)
       }
     } catch (error) {
@@ -136,18 +144,52 @@ const Footer: FC<Props> = ({ setIsLoading, rangkuman, setResRangkuman, resRangku
   }
 
   const updatePage = async (pages: number) => {
-    if (uuid && idMateri) {
+    if (uuid && idMateri && detailMateri) {
       if (page.currentPage === materi[0].materi.isiMateri.length && pages - page.currentPage === 1) {
-        setIsLoading(true)
-        try {
-          const res = await updateFinishModul(uuid, idMateri, "Selesai")
-          if (res) {
-            navigate('/materi')
+        if (detailMateri.status.toLowerCase() === "selesai" && page.currentPage === materi[0].materi.isiMateri.length) {
+          navigate('/materi')
+        } else {
+          setIsLoading(true)
+          try {
+            const resUpdateSoal = await updateSoal(uuid, idMateri, hasilSoal)
+            if (resUpdateSoal) {
+              const res = await updateFinishModul(uuid, idMateri, "Selesai")
+              if (res) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                  customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-white'
+                  },
+                  buttonsStyling: false
+                })
+                const swalSuccess = Swal.mixin({
+                  customClass: {
+                    confirmButton: 'btn btn-success',
+                  },
+                  buttonsStyling: false
+                })
+                swalWithBootstrapButtons.fire({
+                  title: `Selamat latihan kamu telah terkirim 🎉`,
+                  icon: 'success',
+                  showCancelButton: true,
+                  cancelButtonText: 'Lihat hasil latihan?',
+                  confirmButtonText: 'Selesai',
+                  reverseButtons: true,
+                }).then(async (result) => {
+                  if (result.isConfirmed) {
+                    navigate('/materi')
+                  } else if (result.isDismissed) {
+                    handleGetDetailMateri(uuid, idMateri)
+                    window.location.reload();
+                  }
+                })
+              }
+            }
+            setIsLoading(false)
+          } catch (error) {
+            console.error(error);
+            setIsLoading(false)
           }
-          setIsLoading(false)
-        } catch (error) {
-          console.error(error);
-          setIsLoading(false)
         }
       } else {
         setIsLoading(true)
@@ -155,14 +197,35 @@ const Footer: FC<Props> = ({ setIsLoading, rangkuman, setResRangkuman, resRangku
           const res = await getDetailMateriSiswaByID(uuid, idMateri)
           if (res) {
             if (materi[0].materi.isiMateri[page.currentPage - 1].type !== "rangkuman") {
-              if (pages - res.step === 1) {
+              if (pages - res.step === 1 && materi[0].materi.isiMateri[page.currentPage - 1].type !== "soal") {
                 const resUpdateStep = await updateStep(uuid, idMateri, pages)
                 if (resUpdateStep) {
                   page.setPage(pages)
                 }
               } else if (materi[0].materi.isiMateri[page.currentPage - 1].type !== "soal" && materi[0].materi.isiMateri[pages - 1].type === "rangkuman" || materi[0].materi.isiMateri[pages - 1].type === "materi") {
                 page.setPage(pages)
-              } else if (materi[0].materi.isiMateri[page.currentPage - 1].type === "soal" && materi[0].materi.isiMateri[pages - 1].type !== "rangkuman" && materi[0].materi.isiMateri[pages - 1].type !== "materi") {
+              } else if (materi[0].materi.isiMateri[page.currentPage - 1].type === "soal" && materi[0].materi.isiMateri[pages - 1].type !== "rangkuman" && materi[0].materi.isiMateri[pages - 1].type !== "materi" && res.status.toLowerCase() !== "selesai") {
+                if ((materi[0].materi.isiMateri[page.currentPage - 1].judulMateri.toLowerCase() === "latihan 1" && hasilSoal[0] !== undefined) ||
+                  (materi[0].materi.isiMateri[page.currentPage - 1].judulMateri.toLowerCase() === "latihan 2" && hasilSoal[1] !== undefined) ||
+                  (materi[0].materi.isiMateri[page.currentPage - 1].judulMateri.toLowerCase() === "latihan 3" && hasilSoal[2] !== undefined)
+                ) {
+                  page.setPage(pages)
+                } else {
+                  const swalSuccess = Swal.mixin({
+                    customClass: {
+                      confirmButton: 'btn btn-danger',
+                    },
+                    buttonsStyling: false,
+                  })
+                  swalSuccess
+                    .fire({
+                      icon: 'warning',
+                      confirmButtonText: 'Dismiss',
+                      html: `<h3 style="text-align:center; font-weight:bold; color:gray;'">Latihannya jangan lupa diisi dulu ya 🤗</h3>`,
+                      reverseButtons: true,
+                    })
+                }
+              } else if (res.status.toLowerCase() === "selesai") {
                 page.setPage(pages)
               } else {
                 const swalSuccess = Swal.mixin({

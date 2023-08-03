@@ -8,7 +8,7 @@ import { ExampleProvider } from './context/exampleProvider';
 import { useLocation } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDetailMateriSiswaByID } from '../../api/Request/materi.siswa.api';
-import { HasilSoalType } from '../../interface/materi/materi.interface';
+import { DetailMateriTypeResponse, HasilSoalType } from '../../interface/materi/materi.interface';
 
 const DetailMateri = () => {
   const [materiParent, setMateriParent] = useState<string>("")
@@ -23,7 +23,14 @@ const DetailMateri = () => {
   const [rangkuman, setRangkuman] = useState<string>("")
   const [resRangkuman, setResRangkuman] = useState<string>("")
   const [hasilSoal, setHasilSoal] = useState<HasilSoalType[]>([])
-  
+  const [finalHasilSoal, setFinalHasilSoal] = useState<HasilSoalType[]>([])
+  const [detailMateri, setDetailMateri] = useState<DetailMateriTypeResponse>()
+
+  useEffect(() => {
+    console.log(hasilSoal);
+  }, [hasilSoal])
+
+
   useEffect(() => {
     //@ts-ignore
     setIdMateri(location.state.idMateri)
@@ -81,15 +88,23 @@ const DetailMateri = () => {
     try {
       if (uid && id) {
         const res = await getDetailMateriSiswaByID(uid, id)
-        if (res) {
+        if (res && res.status.toLowerCase() !== "selesai") {
           setPage(res.step)
           setResRangkuman(res.rangkuman)
+          setFinalHasilSoal(res.latihan)
+          setDetailMateri(res)
+        } else {
+          setPage(1)
+          setResRangkuman(res.rangkuman)
+          setFinalHasilSoal(res.latihan)
+          setDetailMateri(res)
         }
       }
     } catch (error) {
       console.error(error);
     }
   }
+
 
   return (
     <TitleModulProvider>
@@ -98,7 +113,16 @@ const DetailMateri = () => {
           <div className='row p-0'>
             <div id="materi" className='col-xl-9 card-header'>
               {/* <h1>Tujuan Pembelajaran</h1> */}
-              <IsiMateri className='card-xxl-stretch mb-xl-3 w-100' isLoading={isLoading} setRangkuman={setRangkuman} rangkuman={rangkuman} resRangkuman={resRangkuman} />
+              <IsiMateri className='card-xxl-stretch mb-xl-3 w-100'
+                isLoading={isLoading}
+                setRangkuman={setRangkuman}
+                rangkuman={rangkuman}
+                resRangkuman={resRangkuman}
+                hasilSoal={hasilSoal}
+                setHasilSoal={setHasilSoal}
+                finalHasilSoal={finalHasilSoal}
+                detailMateri={detailMateri}
+              />
             </div>
             <div id="progress" className='col-xl-3 position-fixed mb-xl-3 border border-secondary border-2 rounded'
               style={{ right: '40px', maxHeight: '75%', overflow: 'auto' }}>
@@ -108,9 +132,22 @@ const DetailMateri = () => {
                 </h3>
               </div>
               <div className='mb-10 border-secondary' style={{ borderTop: '2px solid', margin: '10px 0' }}></div>
-              <AccordionMateri className='pt-10 pb-10' setIsLoading={setIsLoading} isLoading={isLoading} rangkuman={rangkuman} setResRangkuman={setResRangkuman} resRangkuman={resRangkuman} />
+              <AccordionMateri
+                className='pt-10 pb-10'
+                setIsLoading={setIsLoading}
+                isLoading={isLoading}
+                rangkuman={rangkuman}
+                setResRangkuman={setResRangkuman}
+                resRangkuman={resRangkuman}
+                hasilSoal={hasilSoal}
+              />
             </div>
-            <Footer setIsLoading={setIsLoading} rangkuman={rangkuman} setResRangkuman={setResRangkuman} resRangkuman={resRangkuman} />
+            <Footer
+              setIsLoading={setIsLoading}
+              rangkuman={rangkuman}
+              setResRangkuman={setResRangkuman}
+              resRangkuman={resRangkuman}
+              hasilSoal={hasilSoal} />
           </div>
         </ExampleProvider>
       </PaginationProvider>

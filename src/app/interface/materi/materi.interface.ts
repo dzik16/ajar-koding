@@ -347,7 +347,7 @@ export const materiOperator: DataMateri[] = [
             "Nilai maksimum: 30",
             "Terjadi error karena kesalahan penulisan operator kondisional"
           ],
-          kunjawSoal: 1,
+          kunjawSoal: 3,
           UrlYoutube: "",
           type: "soal"
         }
@@ -755,7 +755,6 @@ export const materiIfThen: DataMateri[] = [
     status: "materi"
   }
 ];
-
 
 export const materiIfElse: DataMateri[] = [
   {
@@ -1879,7 +1878,6 @@ export const materiNestedIf: DataMateri[] = [
   }
 ];
 
-
 export type ArrayCreateMateri = CreateMateriType[]
 
 export interface CreateMateriType {
@@ -1891,10 +1889,13 @@ export interface DetailMateriTypeResponse {
   status: string
   fullname: string
   step: number
-  latihan: Latihan[]
+  latihan: HasilSoalType[]
   rangkuman: string
 }
 
+export interface UpdateSteptypeResponse {
+  step: number
+}
 
 export interface DetailMateriState {
   idMateri: string
@@ -1922,5 +1923,6 @@ export interface UpdateRangkumanTypeResponse {
 export interface HasilSoalType {
   name: string,
   jawaban: number,
-  hasil: boolean
+  hasil: boolean,
+  textJawaban: string
 }

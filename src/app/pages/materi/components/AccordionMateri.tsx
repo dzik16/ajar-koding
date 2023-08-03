@@ -2,7 +2,7 @@
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
 import { toAbsoluteUrl } from '../../../../_molekul/helpers'
-import { DataMateri, DetailMateriTypeResponse, materiCase, materiIfElse, materiIfThen, materiNestedIf, materiOperator } from '../../../interface/materi/materi.interface'
+import { DataMateri, DetailMateriTypeResponse, HasilSoalType, materiCase, materiIfElse, materiIfThen, materiNestedIf, materiOperator } from '../../../interface/materi/materi.interface'
 import { usePagination } from '../context/materiProvider'
 import { useLocation } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
@@ -16,10 +16,11 @@ type Props = {
   isLoading: boolean
   rangkuman: string
   setResRangkuman: (resRangkuman: string) => void,
-  resRangkuman: string
+  resRangkuman: string,
+  hasilSoal: HasilSoalType[]
 }
 
-const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading, rangkuman, setResRangkuman, resRangkuman }) => {
+const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading, rangkuman, setResRangkuman, resRangkuman, hasilSoal }) => {
   const [materi, setMateri] = useState<DataMateri[]>(materiOperator)
   const { currentPage, setPage } = usePagination()
   const [materiParent, setMateriParent] = useState<string>("")
@@ -117,7 +118,7 @@ const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading, 
         const res = await getDetailMateriSiswaByID(uuid, idMateri)
         if (res) {
           if (materi[0].materi.isiMateri[currentPage - 1].type !== "rangkuman") {
-            if (page - res.step === 1) {
+            if (page - res.step === 1 && materi[0].materi.isiMateri[currentPage - 1].type !== "soal") {
               const resUpdateStep = await updateStep(uuid, idMateri, page)
               if (resUpdateStep) {
                 setDetailMateri(res)
@@ -140,9 +141,39 @@ const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading, 
             } else if (page - res.step < 1 && materi[0].materi.isiMateri[currentPage - 1].type !== "soal") {
               setPage(page)
               setSteps(res.step)
-            } else if (page - res.step < 1 && materi[0].materi.isiMateri[currentPage - 1].type === "soal" && materi[0].materi.isiMateri[page - 1].type !== "materi" && materi[0].materi.isiMateri[page - 1].type !== "rangkuman") {
+            } else if (materi[0].materi.isiMateri[currentPage - 1].type === "soal" && materi[0].materi.isiMateri[page - 1].type !== "materi" && materi[0].materi.isiMateri[page - 1].type !== "rangkuman") {
+              if (page - res.step === 1) {
+                if ((materi[0].materi.isiMateri[currentPage - 1].judulMateri.toLowerCase() === "latihan 1" && hasilSoal[0] !== undefined) ||
+                  (materi[0].materi.isiMateri[currentPage - 1].judulMateri.toLowerCase() === "latihan 2" && hasilSoal[1] !== undefined) ||
+                  (materi[0].materi.isiMateri[currentPage - 1].judulMateri.toLowerCase() === "latihan 3" && hasilSoal[2] !== undefined)
+                ) {
+                  const resUpdateStep = await updateStep(uuid, idMateri, page)
+                  if (resUpdateStep) {
+                    setDetailMateri(res)
+                    setPage(page)
+                  }
+                } else {
+                  const swalSuccess = Swal.mixin({
+                    customClass: {
+                      confirmButton: 'btn btn-danger',
+                    },
+                    buttonsStyling: false,
+                  })
+                  swalSuccess
+                    .fire({
+                      icon: 'warning',
+                      confirmButtonText: 'Dismiss',
+                      html: `<h3 style="text-align:center; font-weight:bold; color:gray;'">Latihannya jangan lupa diisi dulu ya 🤗</h3>`,
+                      reverseButtons: true,
+                    })
+                }
+              } else if (page - res.step < 1) {
+                setPage(page)
+                setSteps(res.step)
+              }
+
+            } else if (res.status.toLowerCase() === "selesai") {
               setPage(page)
-              setSteps(res.step)
             } else {
               const swalSuccess = Swal.mixin({
                 customClass: {
