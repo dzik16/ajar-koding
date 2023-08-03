@@ -14,6 +14,7 @@ import MateriPage from '../pages/materi/MateriPage'
 import DetailMateri from '../pages/materi/DetailMateri'
 import DetailEvaluasi from '../pages/evaluasi/DetailEvaluasi'
 import { PaginationProvider } from '../pages/materi/context/materiProvider'
+import { IsMateriProvider } from '../pages/materi/context/isMateriProvider'
 
 const PrivateRoutes = () => {
   const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
@@ -29,10 +30,16 @@ const PrivateRoutes = () => {
         <Route path='/evaluasi/soal' element={<DetailEvaluasi />} />
         <Route path='/forum' element={<ForumPage />} />
         <Route path='/group' element={<ChatGroup />} />
-        <Route path='/materi' element={<MateriPage />} />
+        <Route path='/materi' element={
+          <IsMateriProvider>
+            <MateriPage />
+          </IsMateriProvider>
+        } />
         <Route path='/materi/details' element={
           <PaginationProvider>
-            <DetailMateri />
+            <IsMateriProvider>
+              <DetailMateri />
+            </IsMateriProvider>
           </PaginationProvider>
         } />
 

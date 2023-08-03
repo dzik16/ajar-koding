@@ -16,6 +16,17 @@ const DashboardPage = () => {
   const auth = getAuth()
 
   useEffect(() => {
+    // Cek apakah halaman sudah pernah di-reload sebelumnya dari local storage
+    const hasReloaded = localStorage.getItem('hasReloaded');
+
+    // Jika belum di-reload sebelumnya, maka lakukan reload halaman
+    if (hasReloaded === "true") {
+      window.location.reload();
+      localStorage.setItem('hasReloaded', 'false'); // Simpan status reload ke local storage agar tidak me-reload lagi
+    }
+  }, []);
+
+  useEffect(() => {
     onAuthStateChanged(auth, e => {
       handleGetProfile(e?.uid)
     })

@@ -7,6 +7,7 @@ import { DataMateri, materiCase, materiIfElse, materiIfThen, materiNestedIf, mat
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getDetailMateriSiswaByID, updateFinishModul, updateStep } from '../../../api/Request/materi.siswa.api';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useIsMateri } from '../context/isMateriProvider';
 
 type Props = {
   setIsLoading: (isLoading: boolean) => void
@@ -23,6 +24,7 @@ const Footer: FC<Props> = ({ setIsLoading }) => {
   const location = useLocation<data>()
   const auth = getAuth()
   const [uuid, setUuid] = useState<string | undefined>("")
+  const { setIsMateri } = useIsMateri()
 
   useEffect(() => {
     //@ts-ignore
@@ -31,6 +33,7 @@ const Footer: FC<Props> = ({ setIsLoading }) => {
       onAuthStateChanged(auth, e => {
         handleGetDetailMateri(e?.uid, idMateri)
         setUuid(e?.uid)
+        setIsMateri(true)
       })
     }
   }, [uuid, idMateri])

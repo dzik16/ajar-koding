@@ -5,7 +5,6 @@ import { Footer } from './components/Footer';
 import { PaginationProvider, usePagination } from './context/materiProvider';
 import { TitleModulProvider } from './context/titleModulProvider';
 import { ExampleProvider } from './context/exampleProvider';
-import { getDataMateri } from '../../helpers/MateriHelpers';
 import { useLocation } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDetailMateriSiswaByID } from '../../api/Request/materi.siswa.api';
@@ -43,6 +42,36 @@ const DetailMateri = () => {
       document.location.reload()
     }
   }, [])
+
+  useEffect(() => {
+    // Cek apakah halaman sudah pernah di-reload sebelumnya dari local storage
+    const hasReloaded = localStorage.getItem('hasReloaded');
+    const titleMateri = localStorage.getItem('titleMateri');
+    let materis = ""
+    //@ts-ignore
+    const mat = location.state.materiParent
+
+    if (mat) {
+      if (mat === "m-k-a") {
+        materis = "Operator Logika, Relasional, dan Kesaman"
+      } else if (mat === "m-k-b") {
+        materis = "Struktur Percabangan If"
+      } else if (mat === "m-k-c") {
+        materis = "Struktur Percabangan If - Else dan If - Else If"
+      } else if (mat === "m-k-d") {
+        materis = "Struktur Percabangan Depend On (Case)"
+      } else if (mat === "m-k-e") {
+        materis = "Struktur Percabangan If bersarang (Nested If)"
+      }
+    }
+
+    // Jika belum di-reload sebelumnya, maka lakukan reload halaman
+    if (hasReloaded === "false" || !hasReloaded && !titleMateri) {
+      window.location.reload();
+      localStorage.setItem('titleMateri', materis);
+      localStorage.setItem('hasReloaded', 'true'); // Simpan status reload ke local storage agar tidak me-reload lagi
+    }
+  }, []);
 
   const handleGetDetailMateri = async (uid: string | undefined, id: string | undefined) => {
     try {

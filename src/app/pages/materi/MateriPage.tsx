@@ -7,6 +7,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { DetailMateriState, DetailMateriTypeResponse } from '../../interface/materi/materi.interface'
 import Lottie from 'lottie-react'
 import animLoading from '../../../_molekul/assets/loading/animLoading.json'
+import { useIsMateri } from './context/isMateriProvider'
 
 const MateriPage = () => {
   const navigate = useNavigate()
@@ -14,6 +15,18 @@ const MateriPage = () => {
   const [uuid, setUuid] = useState<string | undefined>("")
   const [detailMateri] = useState<DetailMateriState[]>([])
   const [isLoading, setLoading] = useState<boolean>(false)
+  const { setIsMateri } = useIsMateri()
+
+  useEffect(() => {
+    // Cek apakah halaman sudah pernah di-reload sebelumnya dari local storage
+    const hasReloaded = localStorage.getItem('hasReloaded');
+    // Jika belum di-reload sebelumnya, maka lakukan reload halaman
+    if (hasReloaded === "true") {
+      window.location.reload();
+      localStorage.removeItem("titleMateri")
+      localStorage.setItem('hasReloaded', 'false'); // Simpan status reload ke local storage agar tidak me-reload lagi
+    }
+  }, []);
 
   useEffect(() => {
     onAuthStateChanged(auth, e => {
@@ -65,6 +78,7 @@ const MateriPage = () => {
         if (detailMateri[i - 2] && detailMateri[i - 2].status !== "On Progress") {
           if (detailMateri[i - 1]) {
             setDataMateri(materi)
+            setIsMateri(true)
             navigate("/materi/details", { state: { materiParent: materi, idMateri: detailMateri[i - 1].idMateri } })
           } else {
             setLoading(true)
@@ -81,6 +95,7 @@ const MateriPage = () => {
               if (res) {
                 setLoading(false)
                 setDataMateri(materi)
+                setIsMateri(true)
                 navigate("/materi/details", { state: { materiParent: materi, idMateri: res.name } })
               }
             } catch (error) {
@@ -94,6 +109,7 @@ const MateriPage = () => {
       } else if (i && i === 1) {
         if (detailMateri[i - 1]) {
           setDataMateri(materi)
+          setIsMateri(true)
           navigate("/materi/details", { state: { materiParent: materi, idMateri: detailMateri[i - 1].idMateri } })
         } else {
           setLoading(true)
@@ -110,6 +126,7 @@ const MateriPage = () => {
             if (res) {
               setLoading(false)
               setDataMateri(materi)
+              setIsMateri(true)
               navigate("/materi/details", { state: { materiParent: materi, idMateri: res.name } })
             }
           } catch (error) {

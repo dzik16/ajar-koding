@@ -2,12 +2,13 @@
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
 import { toAbsoluteUrl } from '../../../../_molekul/helpers'
-import { DataMateri, materiCase, materiIfElse, materiIfThen, materiNestedIf, materiOperator } from '../../../interface/materi/materi.interface'
+import { DataMateri, DetailMateriTypeResponse, materiCase, materiIfElse, materiIfThen, materiNestedIf, materiOperator } from '../../../interface/materi/materi.interface'
 import { usePagination } from '../context/materiProvider'
 import { useExample } from '../context/exampleProvider'
 import { useLocation } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { getDetailMateriSiswaByID, updateStep } from '../../../api/Request/materi.siswa.api'
+import { useIsMateri } from '../context/isMateriProvider'
 
 type Props = {
   className: string,
@@ -20,11 +21,13 @@ const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading }
   const { currentPage, setPage } = usePagination()
   const [materiParent, setMateriParent] = useState<string>("")
   const [idMateri, setIdMateri] = useState<string>("")
+  const [detailMateri, setDetailMateri] = useState<DetailMateriTypeResponse>()
   // @ts-ignore
   const location = useLocation<data>()
   const auth = getAuth()
   const [uuid, setUuid] = useState<string | undefined>("")
   const [steps, setSteps] = useState<number>(0)
+  const { setIsMateri } = useIsMateri()
 
   useEffect(() => {
     //@ts-ignore
@@ -33,6 +36,7 @@ const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading }
       onAuthStateChanged(auth, e => {
         handleGetDetailMateri(e?.uid, idMateri)
         setUuid(e?.uid)
+        setIsMateri(true)
       })
     }
   }, [uuid, idMateri])
@@ -64,11 +68,11 @@ const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading }
       if (uuid && idMateri) {
         const res = await getDetailMateriSiswaByID(uuid, idMateri)
         console.log(page, res.step);
-
         if (res) {
           if (page - res.step === 1) {
             const resUpdateStep = await updateStep(uuid, idMateri, page)
             if (resUpdateStep) {
+              setDetailMateri(res)
               setPage(page)
             }
           } else if (page - res.step > 1) {
@@ -93,6 +97,7 @@ const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading }
       if (uid && id) {
         const res = await getDetailMateriSiswaByID(uid, id)
         if (res) {
+          setDetailMateri(res)
           setSteps(res.step)
         }
         setIsLoading(false)
@@ -103,6 +108,7 @@ const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading }
     }
   }
 
+
   return (
     <div className={clsx('', className)}>
       {/* begin::Body */}
@@ -111,7 +117,7 @@ const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading }
           {
             materi.map((e, i) => {
               return (
-                <div className="accordion-item">
+                <div key={i} className="accordion-item">
                   <h2 className="accordion-header" id={`panelsStayOpen-heading${i}`}>
                     <button className="accordion-button collapsed fw-bold fs-4" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse1" aria-expanded="true" aria-controls="panelsStayOpen-collapse1">
                       {e.materi.titleModul}
@@ -123,9 +129,9 @@ const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading }
                       return (
                         <>
                           {
-                            < div id="panelsStayOpen-collapse1" className="accordion-collapse collapse ms-7 show" aria-labelledby="panelsStayOpen-heading1">
+                            < div key={i} id="panelsStayOpen-collapse1" className="accordion-collapse collapse ms-7 show" aria-labelledby="panelsStayOpen-heading1">
                               {
-                                steps - 1 > i || currentPage - 1 > i ?
+                                steps - 1 > i || currentPage - 1 > i || detailMateri && detailMateri.status.toLocaleLowerCase() === "selesai" ?
                                   <div className="ms-2 mb-3" style={{ cursor: 'pointer' }}
                                     onClick={() => updatePage(i + 1)}
                                   >
