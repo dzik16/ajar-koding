@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../../../app/modules/auth'
 import { Languages } from './Languages'
 import { toAbsoluteUrl } from '../../../helpers'
-import { ProfileSiswaTypeResponse } from '../../../../app/interface/profile.siswa.interface'
+import { CreateProfileSiswaType, ProfileSiswaTypeResponse } from '../../../../app/interface/profile.siswa.interface'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { getProfileSiswa } from '../../../../app/api/Request/profile.siswa.api'
 
 const HeaderUserMenu: FC = () => {
   const { currentUser, logout } = useAuth()
-  const [profileSiswa, setProfileSiswa] = useState<ProfileSiswaTypeResponse>()
+  const [profileSiswa, setProfileSiswa] = useState<CreateProfileSiswaType>()
   const auth = getAuth()
 
   useEffect(() => {
@@ -23,10 +23,7 @@ const HeaderUserMenu: FC = () => {
     try {
       if (uid) {
         const ress = await getProfileSiswa(uid)
-        console.log(ress);
         const output = Object.entries(ress)
-        console.log(output);
-
         output.map(e => {
           //@ts-ignore
           setProfileSiswa(e[1])
@@ -45,7 +42,10 @@ const HeaderUserMenu: FC = () => {
       <div className='menu-item px-3'>
         <div className='menu-content d-flex align-items-center px-3'>
           <div className='symbol symbol-50px me-5'>
-            <img alt='Logo' src={toAbsoluteUrl('/media/avatars/300-2.jpg')} />
+            <img
+              className='bg-gray-300 p-1'
+              alt='Logo' src={profileSiswa?.imageProfile}
+            />
           </div>
 
           <div className='d-flex flex-column'>

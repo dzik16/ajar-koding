@@ -55,31 +55,31 @@ const DashboardPage = () => {
         <span className='text-gray-700 fs-4 fw-semibold d-block'>Selamat datang di Ajar Koding<br /> Tempat di Mana Bug Jadi Peliharaan dan Koding Jadi Komedi!</span>
       </div>
       <div className='row g-5 g-xl-8'>
-        <div className='col-xl-3'>
+        <div className='col-xl-4'>
           <StatisticsWidget5
             className='card-xl-stretch mb-xl-8 shadow-sm'
             svgIcon='call'
             color='body-white'
             iconColor='primary'
             title='Absensi'
-            description='Hadir : 9, Alfa : 1, Izin : 2'
+            description='Hadir : 1, Alfa : 0, Izin : 0'
             titleColor='gray-900'
             descriptionColor='gray-400'
           />
         </div>
-        <div className='col-xl-3'>
+        <div className='col-xl-4'>
           <StatisticsWidget5
             className='card-xl-stretch mb-xl-8 shadow-sm'
             svgIcon='award'
             color='body-white'
             iconColor='primary'
             title='Peringkat'
-            description='Kamu Peringkat ke 10 dari 100 orang'
+            description='Kamu Peringkat ke 1 dari 1 orang'
             titleColor='gray-900'
             descriptionColor='gray-400'
           />
         </div>
-        <div className='col-xl-3'
+        <div className='col-xl-4'
           onClick={() => navigate('/materi')}
         >
           <StatisticsWidget5
@@ -93,7 +93,7 @@ const DashboardPage = () => {
             descriptionColor='gray-400 text-hover-primary'
           />
         </div>
-        <div className='col-xl-3'
+        {/* <div className='col-xl-3'
           onClick={() => navigate('/evaluasi')}
         >
           <StatisticsWidget5
@@ -106,13 +106,15 @@ const DashboardPage = () => {
             titleColor='gray-900'
             descriptionColor='gray-400 text-hover-primary'
           />
-        </div>
+        </div> */}
       </div>
       {/* end::Row */}
 
       <div className='col-xl-12'>
         <Aktivitas className='card-xl-stretch mb-5 mb-xl-8 shadow-sm' />
       </div>
+
+
       {/* begin::Row */}
       <div className='row g-5 g-xl-8'>
         {/* begin::Col */}
@@ -127,6 +129,7 @@ const DashboardPage = () => {
         {/* end::Col */}
       </div>
       {/* end::Row */}
+
     </>
   )
 }

@@ -11,6 +11,7 @@ export interface CreateProfileSiswaType {
   name: string
   nomor_absen: string
   email: string
+  imageProfile: string
 }
 
 

@@ -26,10 +26,6 @@ const DetailMateri = () => {
   const [finalHasilSoal, setFinalHasilSoal] = useState<HasilSoalType[]>([])
   const [detailMateri, setDetailMateri] = useState<DetailMateriTypeResponse>()
 
-  useEffect(() => {
-    console.log(hasilSoal);
-  }, [hasilSoal])
-
 
   useEffect(() => {
     //@ts-ignore

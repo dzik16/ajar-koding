@@ -10,6 +10,8 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 import { createProfileSiswa } from '../../../api/Request/profile.siswa.api'
 import { CreateProfileSiswaType } from '../../../interface/profile.siswa.interface'
 import { AuthModel } from '../../../interface/auth.interface'
+import { createPeringkatByUID } from '../../../api/Request/peringkat.siswa.api'
+import { CreatePeringkatType } from '../../../interface/peringkat.interface'
 
 const registerSchema = Yup.object().shape({
   fullname: Yup.string()
@@ -56,12 +58,21 @@ export function Registration() {
       try {
         const ress = await createUserWithEmailAndPassword(auth, values.email, values.password);
         if (ress.user) {
+          const image = `https://api.dicebear.com/6.x/adventurer/svg?seed=${values.fullname}`
           const bodyProfile: CreateProfileSiswaType = {
             name: values.fullname,
             nomor_absen: values.absen,
-            email: values.email
+            email: values.email,
+            imageProfile: image
           }
           const postProfileSiswa = await createProfileSiswa(ress.user.uid, bodyProfile)
+          const bodyPringkat: CreatePeringkatType = {
+            fullname: values.fullname,
+            email: values.email,
+            nomorAbsen: values.absen,
+            poin: 0
+          }
+          const postPeringkatSiswa = await createPeringkatByUID(ress.user.uid, bodyPringkat)
           const body: AuthModel = {
             uid: ress.user.uid,
             email: ress.user.email

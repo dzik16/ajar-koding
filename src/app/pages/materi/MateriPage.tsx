@@ -8,6 +8,8 @@ import { DetailMateriState, DetailMateriTypeResponse } from '../../interface/mat
 import Lottie from 'lottie-react'
 import animLoading from '../../../_molekul/assets/loading/animLoading.json'
 import { useIsMateri } from './context/isMateriProvider'
+import { format } from 'date-fns';
+import { id } from 'date-fns/locale';
 
 const MateriPage = () => {
   const navigate = useNavigate()
@@ -73,6 +75,9 @@ const MateriPage = () => {
 
 
   const handleNavigate = async (materi: string, nama: string, i?: number) => {
+    const currentDate = new Date();
+    const formattedDate = format(currentDate, 'dd MMMM yyyy', { locale: id });
+
     if (uuid) {
       if (i && i > 1) {
         if (detailMateri[i - 2] && detailMateri[i - 2].status !== "On Progress") {
@@ -89,7 +94,8 @@ const MateriPage = () => {
                 fullname: '-',
                 step: 1,
                 latihan: [],
-                rangkuman: ''
+                rangkuman: '',
+                tanggalMulai: formattedDate
               }
               const res = await createDetailMateriByUID(uuid, body)
               if (res) {
@@ -120,7 +126,8 @@ const MateriPage = () => {
               fullname: '-',
               step: 1,
               latihan: [],
-              rangkuman: ''
+              rangkuman: '',
+              tanggalMulai: formattedDate
             }
             const res = await createDetailMateriByUID(uuid, body)
             if (res) {

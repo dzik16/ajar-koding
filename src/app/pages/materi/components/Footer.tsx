@@ -9,6 +9,7 @@ import { getDetailMateriSiswaByID, updateFinishModul, updateRangkuman, updateSoa
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useIsMateri } from '../context/isMateriProvider';
 import Swal from 'sweetalert2';
+import { getDetailPeringkatSiswaByUID, updatePoinByUD } from '../../../api/Request/peringkat.siswa.api';
 
 type Props = {
   setIsLoading: (isLoading: boolean) => void
@@ -151,6 +152,15 @@ const Footer: FC<Props> = ({ setIsLoading, rangkuman, setResRangkuman, resRangku
         } else {
           setIsLoading(true)
           try {
+            const getIdPoin = await getDetailPeringkatSiswaByUID(uuid)
+            const la = Object.entries(getIdPoin)
+            let point = la[0][1].poin
+            hasilSoal.map(e => {
+              if (e.hasil) {
+                point += 100
+              }
+            })
+            const resUpdatepoin = await updatePoinByUD(uuid, la[0][0], point)
             const resUpdateSoal = await updateSoal(uuid, idMateri, hasilSoal)
             if (resUpdateSoal) {
               const res = await updateFinishModul(uuid, idMateri, "Selesai")

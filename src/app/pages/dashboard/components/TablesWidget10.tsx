@@ -1,12 +1,69 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { KTIcon, toAbsoluteUrl } from '../../../../_molekul/helpers'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { getAllPeringkatSiswa } from '../../../api/Request/peringkat.siswa.api'
+import { CreatePeringkatType } from '../../../interface/peringkat.interface'
+import { getProfileSiswa } from '../../../api/Request/profile.siswa.api'
 
 type Props = {
   className: string
 }
 
 const TablesWidget10: React.FC<Props> = ({ className }) => {
+  const [uuid, setUuid] = useState<string | undefined>("")
+  const auth = getAuth()
+  const [listPeringkat, setListPeringkat] = useState<CreatePeringkatType[]>([])
+  const [imageProfile, setImageProfile] = useState<string>("")
+
+  useEffect(() => {
+    onAuthStateChanged(auth, e => {
+      handleGetPeringkat()
+      handleGetProfile(e?.uid)
+      setUuid(e?.uid)
+    })
+  }, [uuid])
+
+  const handleGetProfile = async (uid: string | undefined) => {
+    if (uid) {
+      const getIdPoin = await getProfileSiswa(uid)
+      const la = Object.entries(getIdPoin)
+      setImageProfile(la[0][1].imageProfile)
+    }
+  }
+
+
+  const handleGetPeringkat = async () => {
+    try {
+      const res = await getAllPeringkatSiswa()
+      const la = Object.entries(res)
+      // console.log(la[0]);
+
+      la.map((e, i) => {
+        const ha = Object.entries(e[1])
+        const body: CreatePeringkatType = {
+          fullname: ha[0][1].fullname,
+          email: ha[0][1].email,
+          nomorAbsen: ha[0][1].nomorAbsen,
+          poin: ha[0][1].poin
+        }
+        setListMateri(body)
+      })
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const setListMateri = (list: CreatePeringkatType) => {
+    const found = listPeringkat.find((obj) => {
+      return obj.fullname === list.fullname
+    })
+    if (!found) {
+      listPeringkat.push(list)
+    }
+  }
+
+
   return (
     <div className={`card ${className}`}>
       {/* begin::Header */}
@@ -33,45 +90,49 @@ const TablesWidget10: React.FC<Props> = ({ className }) => {
             {/* end::Table head */}
             {/* begin::Table body */}
             <tbody>
-              <tr>
-                <td>
-                  <div className='d-flex align-items-center'>
-                    <div className='symbol symbol-45px me-5'>
-                      <img src={toAbsoluteUrl('/media/avatars/300-2.jpg')} alt='' />
-                    </div>
-                    <div className='d-flex justify-content-start flex-column'>
-                      <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
-                        Jessie Clarcson
-                      </a>
-                      <span className='text-muted fw-semibold text-muted d-block fs-7'>
-                        dzik@admin.com
-                      </span>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                    Agoda
-                  </a>
-                  <span className='text-muted fw-semibold text-muted d-block fs-7'>
-                    Houses &amp; Hotels
-                  </span>
-                </td>
-                <td className='text-end'>
-                  <div className='d-flex flex-column w-100 me-2'>
-                    <div className='d-flex flex-stack mb-2'>
-                      <span className='text-muted me-2 fs-7 fw-semibold'>70%</span>
-                    </div>
-                    <div className='progress h-6px w-100'>
-                      <div
-                        className='progress-bar bg-danger'
-                        role='progressbar'
-                        style={{ width: '70%' }}
-                      ></div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
+              {
+                listPeringkat && listPeringkat.map((e, i) => {
+                  return (
+                    <tr>
+                      <td>
+                        <div className='d-flex align-items-center'>
+                          <div className='symbol symbol-45px me-5'>
+                            <img src={imageProfile} alt='' />
+                          </div>
+                          <div className='d-flex justify-content-start flex-column'>
+                            <a href='#' className='text-dark fw-bold text-hover-primary fs-4'>
+                              {e.fullname}
+                            </a>
+                            <span className='text-muted fw-semibold text-muted d-block fs-5'>
+                              {e.email}
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <span className='text-dark fw-bold text-hover-primary d-block fs-4'>
+                          {e.nomorAbsen}
+                        </span>
+                      </td>
+                      <td className='text-end'>
+                        <div className='d-flex flex-column w-100 me-2'>
+                          <div className='d-flex flex-stack mb-2'>
+                            <span className='text-muted me-2 fs-4 fw-semibold'>{e.poin / 10}</span>
+                          </div>
+                          <div className='progress h-6px w-100'>
+                            <div
+                              className='progress-bar bg-danger'
+                              role='progressbar'
+                              style={{ width: '100%' }}
+                            ></div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })
+              }
+
             </tbody>
             {/* end::Table body */}
           </table>

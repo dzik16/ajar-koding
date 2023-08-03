@@ -1,13 +1,66 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { KTIcon, toAbsoluteUrl } from '../../../../_molekul/helpers'
 import ProgressBar from './ProgressBar'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { DataMateri, DetailMateriState, DetailMateriTypeResponse, materiCase, materiIfElse, materiIfThen, materiNestedIf, materiOperator } from '../../../interface/materi/materi.interface'
+import { getMateriSiswaByUID } from '../../../api/Request/materi.siswa.api'
 
 type Props = {
   className: string
 }
 
 const Aktivitas: React.FC<Props> = ({ className }) => {
+  const auth = getAuth()
+  const [idMateri, setIdMateri] = useState<string>("")
+  const [uuid, setUuid] = useState<string | undefined>("")
+  const [detailMateri] = useState<DetailMateriTypeResponse[]>([])
+  const [isLoading, setLoading] = useState<boolean>(false)
+  const [materi, setMateri] = useState<DataMateri[]>()
+  const [progressPercent, setProgressPercent] = useState<number[]>([])
+
+  useEffect(() => {
+    onAuthStateChanged(auth, e => {
+      handleGetMateri(e?.uid)
+      setUuid(e?.uid)
+    })
+  }, [uuid, detailMateri])
+
+  const handleGetMateri = async (uid: string | undefined) => {
+    setLoading(true)
+    try {
+      if (uid) {
+        const res = await getMateriSiswaByUID(uid)
+        const la = Object.entries(res)
+        la.map((e, i) => {
+          const body: DetailMateriTypeResponse = {
+            name: e[1].name,
+            status: e[1].status,
+            fullname: e[1].fullname,
+            step: e[1].step,
+            latihan: e[1].latihan,
+            rangkuman: e[1].rangkuman,
+            tanggalMulai: e[1].tanggalMulai
+          }
+          setListMateri(body)
+        })
+      }
+      setLoading(false)
+    } catch (error) {
+      console.error(error);
+      setLoading(false)
+    }
+  }
+
+  const setListMateri = (list: DetailMateriTypeResponse) => {
+    const found = detailMateri.find((obj) => {
+      return obj.name === list.name
+    })
+    if (!found) {
+      detailMateri.push(list)
+    }
+  }
+
   return (
     <div className={`card ${className}`}>
       {/* begin::Header */}
@@ -29,36 +82,40 @@ const Aktivitas: React.FC<Props> = ({ className }) => {
                 {/* begin::Table head */}
                 <thead>
                   <tr className='border-0'>
-                    <th className='p-0 min-w-100px'>Nama</th>
-                    <th className='p-0 min-w-110px'>Tanggal</th>
-                    <th className='p-0 min-w-1500px'>Status</th>
-                    <th className='p-0 min-w-110px'>Progres</th>
+                    <th className='p-0 min-w-400px'>Nama</th>
+                    <th className='p-0 min-w-200px'>Tanggal Mulai</th>
+                    <th className='p-0 min-w-200px'>Status</th>
+                    {/* <th className='p-0 min-w-130px'>Progres</th> */}
                   </tr>
                 </thead>
                 {/* end::Table head */}
                 {/* begin::Table body */}
                 <tbody>
-                  <tr>
-                    <td>
+                  {
+                    detailMateri && detailMateri.map((e, i) => {
+                      return (
+                        <tr>
+                          <td>
+                            <span className='fw-bold'>
+                              {e.name}
+                            </span>
+                          </td>
 
-                      <span className='fw-bold'>
-                        Pengenalan Logical Thinking
-                      </span>
+                          <td className='p-0'>
+                            <span className='text-muted fw-semibold d-block'>{e.tanggalMulai}</span>
+                          </td>
 
-                    </td>
+                          <td className='text-start text-muted fw-semibold p-0'>
+                            <span className={`badge ${e.status.toLowerCase() === "selesai" ? "badge-light-success" : "badge-light-warning"}`}>{e.status}</span>
+                          </td>
+                          <td className='text-start p-0 ms-5'>
+                            {/* <ProgressBar percentage={80} title={`80%`} size={30} strokeWidth={3} /> */}
+                          </td>
+                        </tr>
+                      )
+                    })
+                  }
 
-                    <td className='p-0'>
-                      <span className='text-muted fw-semibold d-block'>20 Juni 2023</span>
-                    </td>
-
-                    <td className='text-start text-muted fw-semibold p-0'>
-                      <span className='badge badge-light-warning'>In Progress</span>
-                    </td>
-
-                    <td className='text-start p-0 ms-5'>
-                      <ProgressBar percentage={80} title={'80%'} size={30} strokeWidth={3} />
-                    </td>
-                  </tr>
                 </tbody>
                 {/* end::Table body */}
               </table>

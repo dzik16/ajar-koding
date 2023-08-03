@@ -1888,6 +1888,7 @@ export interface DetailMateriTypeResponse {
   name: string
   status: string
   fullname: string
+  tanggalMulai: string
   step: number
   latihan: HasilSoalType[]
   rangkuman: string
