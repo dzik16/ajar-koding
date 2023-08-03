@@ -5,7 +5,7 @@ import { useLayout } from '../../../../_molekul/layout/core';
 import { usePagination } from '../context/materiProvider';
 import { DataMateri, materiCase, materiIfElse, materiIfThen, materiNestedIf, materiOperator } from '../../../interface/materi/materi.interface';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getDetailMateriSiswaByID, updateFinishModul, updateStep } from '../../../api/Request/materi.siswa.api';
+import { getDetailMateriSiswaByID, updateFinishModul, updateRangkuman, updateStep } from '../../../api/Request/materi.siswa.api';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useIsMateri } from '../context/isMateriProvider';
 import Swal from 'sweetalert2';
@@ -13,9 +13,11 @@ import Swal from 'sweetalert2';
 type Props = {
   setIsLoading: (isLoading: boolean) => void
   rangkuman: string
+  setResRangkuman: (resRangkuman: string) => void,
+  resRangkuman: string
 }
 
-const Footer: FC<Props> = ({ setIsLoading, rangkuman }) => {
+const Footer: FC<Props> = ({ setIsLoading, rangkuman, setResRangkuman, resRangkuman }) => {
   const { classes } = useLayout();
   const [materi, setMateri] = useState<DataMateri[]>(materiOperator)
   const page = usePagination()
@@ -72,9 +74,70 @@ const Footer: FC<Props> = ({ setIsLoading, rangkuman }) => {
     }
   }
 
+  const handleUpdateRangkuman = (rangkuman: string, pages: number) => {
+    setResRangkuman(rangkuman)
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-white'
+      },
+      buttonsStyling: false
+    })
+    const swalSuccess = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+      },
+      buttonsStyling: false
+    })
+    swalWithBootstrapButtons.fire({
+      title: `Selamat rangkuman kamu telah terkirim 🎉`,
+      icon: 'success',
+      showCancelButton: true,
+      cancelButtonText: 'Mau baca materinya dulu',
+      confirmButtonText: 'Lanjut buat latihan?',
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const title = `Ada yang mau lewat dulu nih, kalau kalian masuk ke sesi latihan maka kalian tidak akan bisa kembali ke modul materi, apakah sudah siap?`
+        swalWithBootstrapButtons.fire({
+          title: `Perhatian🫵`,
+          icon: 'warning',
+          showCancelButton: true,
+          html: `<p style="text-align:center'; color:'gray-900'">${title}</p>`,
+          cancelButtonText: 'Belum siap 😵',
+          confirmButtonText: 'Siap dong! 💪',
+          reverseButtons: true,
+        }).then(async (result) => {
+          if (result.isConfirmed && uuid) {
+            const resUpdateStep = await updateStep(uuid, idMateri, pages)
+            if (resUpdateStep) {
+              page.setPage(pages)
+            }
+          }
+        })
+      }
+    })
+  }
+
+  const handleWarningRangkuman = () => {
+    const swalSuccess = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-danger',
+      },
+      buttonsStyling: false,
+    })
+    swalSuccess
+      .fire({
+        icon: 'warning',
+        confirmButtonText: 'Dismiss',
+        html: `<h3 style="text-align:center; font-weight:bold; color:gray;'">Silahkan masukan rangkumannya dulu yaa!🫣</h3>`,
+        reverseButtons: true,
+      })
+  }
+
   const updatePage = async (pages: number) => {
     if (uuid && idMateri) {
-      if (page.currentPage === materi[0].materi.isiMateri.length) {
+      if (page.currentPage === materi[0].materi.isiMateri.length && pages - page.currentPage === 1) {
         setIsLoading(true)
         try {
           const res = await updateFinishModul(uuid, idMateri, "Selesai")
@@ -97,27 +160,61 @@ const Footer: FC<Props> = ({ setIsLoading, rangkuman }) => {
                 if (resUpdateStep) {
                   page.setPage(pages)
                 }
-              } else {
+              } else if (materi[0].materi.isiMateri[page.currentPage - 1].type !== "soal" && materi[0].materi.isiMateri[pages - 1].type === "rangkuman" || materi[0].materi.isiMateri[pages - 1].type === "materi") {
                 page.setPage(pages)
+              } else if (materi[0].materi.isiMateri[page.currentPage - 1].type === "soal" && materi[0].materi.isiMateri[pages - 1].type !== "rangkuman" && materi[0].materi.isiMateri[pages - 1].type !== "materi") {
+                page.setPage(pages)
+              } else {
+                const swalSuccess = Swal.mixin({
+                  customClass: {
+                    confirmButton: 'btn btn-danger',
+                  },
+                  buttonsStyling: false,
+                })
+                swalSuccess
+                  .fire({
+                    icon: 'warning',
+                    confirmButtonText: 'Dismiss',
+                    html: `<h3 style="text-align:center; font-weight:bold; color:gray;'">Mohon maaf modul materi sementara di tutup dulu ya 🤗</h3>`,
+                    reverseButtons: true,
+                  })
               }
             } else if (materi[0].materi.isiMateri[page.currentPage - 1].type === "rangkuman" && pages - res.step < 1) {
               page.setPage(pages)
-            } else if (materi[0].materi.isiMateri[page.currentPage - 1].type === "rangkuman" && pages - res.step === 1 && rangkuman !== "") {
-              console.log("masuk");
-            } else {
-              const swalSuccess = Swal.mixin({
-                customClass: {
-                  confirmButton: 'btn btn-danger',
-                },
-                buttonsStyling: false,
-              })
-              swalSuccess
-                .fire({
-                  icon: 'warning',
-                  confirmButtonText: 'Dismiss',
-                  html: `<h3 style="text-align:center; font-weight:bold; color:gray;'">Silahkan masukan rangkumannya dulu yaa!🫣</h3>`,
-                  reverseButtons: true,
+            } else if (materi[0].materi.isiMateri[page.currentPage - 1].type === "rangkuman" && pages - res.step === 1 && rangkuman !== "" && resRangkuman === "") {
+              const resUpdateRangkuman = await updateRangkuman(uuid, idMateri, rangkuman)
+              if (rangkuman) {
+                handleUpdateRangkuman(resUpdateRangkuman.rangkuman, pages)
+              }
+            } else if (materi[0].materi.isiMateri[page.currentPage - 1].type === "rangkuman" && pages - res.step === 1 && rangkuman !== "" || resRangkuman !== "") {
+              if (materi[0].materi.isiMateri[pages - 1].type === "soal") {
+                const swalWithBootstrapButtons = Swal.mixin({
+                  customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-white'
+                  },
+                  buttonsStyling: false
                 })
+                const title = `Ada yang mau lewat dulu nih, kalau kalian masuk ke sesi latihan maka kalian tidak akan bisa kembali ke modul materi, apakah sudah siap?`
+                swalWithBootstrapButtons.fire({
+                  title: `Perhatian🫵`,
+                  icon: 'warning',
+                  showCancelButton: true,
+                  html: `<p style="text-align:center'; color:'gray-900'">${title}</p>`,
+                  cancelButtonText: 'Belum siap 😵',
+                  confirmButtonText: 'Siap dong! 💪',
+                  reverseButtons: true,
+                }).then(async (result) => {
+                  if (result.isConfirmed && uuid) {
+                    const resUpdateStep = await updateStep(uuid, idMateri, pages)
+                    if (resUpdateStep) {
+                      page.setPage(pages)
+                    }
+                  }
+                })
+              }
+            } else {
+              handleWarningRangkuman()
             }
           }
           setIsLoading(false)

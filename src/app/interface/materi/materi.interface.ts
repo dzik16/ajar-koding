@@ -1914,3 +1914,13 @@ export interface Latihan {
 export interface CreateMateriTypeResponse {
   name: string
 }
+
+export interface UpdateRangkumanTypeResponse {
+  rangkuman: string
+}
+
+export interface HasilSoalType {
+  name: string,
+  jawaban: number,
+  hasil: boolean
+}

@@ -16,10 +16,11 @@ type Props = {
   className: string,
   setRangkuman: (rangkuman: string) => void,
   rangkuman: string,
+  resRangkuman: string,
   isLoading?: boolean
 }
 
-const IsiMateri: React.FC<Props> = ({ className, isLoading, setRangkuman, rangkuman }) => {
+const IsiMateri: React.FC<Props> = ({ className, isLoading, setRangkuman, rangkuman, resRangkuman }) => {
   const page = usePagination()
   // const [isLoading, setIsLoading] = useState(false);
   const currentPageTitleModul = useTitleModul()
@@ -137,17 +138,24 @@ const IsiMateri: React.FC<Props> = ({ className, isLoading, setRangkuman, rangku
                   Setelah diskusi dalam kelompok selesai silahkan masukan rangkuman terkait materi yang telah dipelajari pada form di bawah ini!
                 </span>
                 <div className="">
-                  <textarea
-                    style={{ fontSize: '20px' }}
-                    className='form-control'
-                    id='exampleFormControlTextarea1'
-                    rows={5}
-                    placeholder='Masukan rangkuman hasil diskusi'
-                    value={rangkuman}
-                    onChange={(e) => {
-                      setRangkuman(e.target.value)
-                    }}
-                  />
+                  {
+                    resRangkuman !== "" ?
+                      <span className='form-control' style={{ fontSize: '20px' }}>
+                        {resRangkuman}
+                      </span>
+                      :
+                      <textarea
+                        style={{ fontSize: '20px' }}
+                        className='form-control'
+                        id='exampleFormControlTextarea1'
+                        rows={5}
+                        placeholder='Masukan rangkuman hasil diskusi'
+                        value={rangkuman}
+                        onChange={(e) => {
+                          setRangkuman(e.target.value)
+                        }}
+                      />
+                  }
                 </div>
                 {/* <button
                   className={`btn mt-10 ${rangkuman !== "" ? "btn-primary" : "btn-secondary"} w-200px`}

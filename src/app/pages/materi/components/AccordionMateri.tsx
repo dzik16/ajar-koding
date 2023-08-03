@@ -4,10 +4,9 @@ import React, { useEffect, useState } from 'react'
 import { toAbsoluteUrl } from '../../../../_molekul/helpers'
 import { DataMateri, DetailMateriTypeResponse, materiCase, materiIfElse, materiIfThen, materiNestedIf, materiOperator } from '../../../interface/materi/materi.interface'
 import { usePagination } from '../context/materiProvider'
-import { useExample } from '../context/exampleProvider'
 import { useLocation } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { getDetailMateriSiswaByID, updateStep } from '../../../api/Request/materi.siswa.api'
+import { getDetailMateriSiswaByID, updateRangkuman, updateStep } from '../../../api/Request/materi.siswa.api'
 import { useIsMateri } from '../context/isMateriProvider'
 import Swal from 'sweetalert2'
 
@@ -16,9 +15,11 @@ type Props = {
   setIsLoading: (isLoading: boolean) => void,
   isLoading: boolean
   rangkuman: string
+  setResRangkuman: (resRangkuman: string) => void,
+  resRangkuman: string
 }
 
-const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading, rangkuman }) => {
+const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading, rangkuman, setResRangkuman, resRangkuman }) => {
   const [materi, setMateri] = useState<DataMateri[]>(materiOperator)
   const { currentPage, setPage } = usePagination()
   const [materiParent, setMateriParent] = useState<string>("")
@@ -61,6 +62,51 @@ const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading, 
     }
   }, [materiParent, materi])
 
+  const handleUpdateRangkuman = (rangkuman: string, pages: number) => {
+    setResRangkuman(rangkuman)
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-white'
+      },
+      buttonsStyling: false
+    })
+    const swalSuccess = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+      },
+      buttonsStyling: false
+    })
+    swalWithBootstrapButtons.fire({
+      title: `Selamat rangkuman kamu telah terkirim 🎉`,
+      icon: 'success',
+      showCancelButton: true,
+      cancelButtonText: 'Mau baca materinya dulu',
+      confirmButtonText: 'Lanjut buat latihan?',
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const title = `Ada yang mau lewat dulu nih, kalau kalian masuk ke sesi latihan maka kalian tidak akan bisa kembali ke modul materi, apakah sudah siap?`
+        swalWithBootstrapButtons.fire({
+          title: `Perhatian🫵`,
+          icon: 'warning',
+          showCancelButton: true,
+          html: `<p style="text-align:center'; color:'gray-900'">${title}</p>`,
+          cancelButtonText: 'Belum siap 😵',
+          confirmButtonText: 'Siap dong! 💪',
+          reverseButtons: true,
+        }).then(async (result) => {
+          if (result.isConfirmed && uuid) {
+            const resUpdateStep = await updateStep(uuid, idMateri, pages)
+            if (resUpdateStep) {
+              setPage(pages)
+            }
+          }
+        })
+      }
+    })
+  }
+
   const updatePage = async (page: number) => {
     if (!page || currentPage === page) {
       return
@@ -91,15 +137,86 @@ const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading, 
                   html: `<h3 style="text-align:center; font-weight:bold; color:gray;'">Eits gaboleh loncat ya🤪</h3>`,
                   reverseButtons: true,
                 })
-            } else if (page - res.step < 1) {
+            } else if (page - res.step < 1 && materi[0].materi.isiMateri[currentPage - 1].type !== "soal") {
               setPage(page)
               setSteps(res.step)
+            } else if (page - res.step < 1 && materi[0].materi.isiMateri[currentPage - 1].type === "soal" && materi[0].materi.isiMateri[page - 1].type !== "materi" && materi[0].materi.isiMateri[page - 1].type !== "rangkuman") {
+              setPage(page)
+              setSteps(res.step)
+            } else {
+              const swalSuccess = Swal.mixin({
+                customClass: {
+                  confirmButton: 'btn btn-danger',
+                },
+                buttonsStyling: false,
+              })
+              swalSuccess
+                .fire({
+                  icon: 'warning',
+                  confirmButtonText: 'Dismiss',
+                  html: `<h3 style="text-align:center; font-weight:bold; color:gray;'">Mohon maaf modul materi sementara di tutup dulu ya 🤗</h3>`,
+                  reverseButtons: true,
+                })
             }
           } else if (materi[0].materi.isiMateri[currentPage - 1].type === "rangkuman" && page - res.step < 1) {
             setPage(page)
             setSteps(res.step)
-          } else if (materi[0].materi.isiMateri[currentPage - 1].type === "rangkuman" && page - res.step === 1 && rangkuman !== "") {
-            console.log("masuk");
+          } else if (materi[0].materi.isiMateri[currentPage - 1].type === "rangkuman" && page - res.step === 1 && rangkuman !== "" && resRangkuman === "") {
+            try {
+              const resUpdateRangkuman = await updateRangkuman(uuid, idMateri, rangkuman)
+              if (resUpdateRangkuman) {
+                handleUpdateRangkuman(resUpdateRangkuman.rangkuman, page)
+              }
+            } catch (error) {
+              console.error(error);
+            }
+
+          } else if (materi[0].materi.isiMateri[currentPage - 1].type === "rangkuman" && page - res.step === 1 && rangkuman !== "" || resRangkuman !== "") {
+            try {
+              if (materi[0].materi.isiMateri[page - 1].type === "soal") {
+                const swalWithBootstrapButtons = Swal.mixin({
+                  customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-white'
+                  },
+                  buttonsStyling: false
+                })
+                const title = `Ada yang mau lewat dulu nih, kalau kalian masuk ke sesi latihan maka kalian tidak akan bisa kembali ke modul materi, apakah sudah siap?`
+                swalWithBootstrapButtons.fire({
+                  title: `Perhatian🫵`,
+                  icon: 'warning',
+                  showCancelButton: true,
+                  html: `<p style="text-align:center'; color:'gray-900'">${title}</p>`,
+                  cancelButtonText: 'Belum siap 😵',
+                  confirmButtonText: 'Siap dong! 💪',
+                  reverseButtons: true,
+                }).then(async (result) => {
+                  if (result.isConfirmed && uuid) {
+                    const resUpdateStep = await updateStep(uuid, idMateri, page)
+                    if (resUpdateStep) {
+                      setPage(page)
+                    }
+                  }
+                })
+              }
+            } catch (error) {
+              console.error(error);
+            }
+
+          } else if (materi[0].materi.isiMateri[currentPage - 1].type === "rangkuman" && page - res.step > 1) {
+            const swalSuccess = Swal.mixin({
+              customClass: {
+                confirmButton: 'btn btn-danger',
+              },
+              buttonsStyling: false,
+            })
+            swalSuccess
+              .fire({
+                icon: 'warning',
+                confirmButtonText: 'Dismiss',
+                html: `<h3 style="text-align:center; font-weight:bold; color:gray;'">Eits gaboleh loncat ya🤪</h3>`,
+                reverseButtons: true,
+              })
           } else {
             const swalSuccess = Swal.mixin({
               customClass: {
@@ -195,20 +312,6 @@ const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading, 
                       )
                     })
                   }
-
-                  {/* <div id="panelsStayOpen-collapse1" className="accordion-collapse collapse ms-7 show" aria-labelledby="panelsStayOpen-heading1">
-                    <div className="ms-2 mb-3" style={{ cursor: 'pointer' }}
-                      onClick={() => updateExamplePage("cek")}
-                    >
-                      <img
-                        alt='Logo'
-                        src={toAbsoluteUrl('/media/icons/duotune/general/ic_check.svg')}
-                        className='logo-default h-25px me-2 mb-1'
-                      />
-                      <span className={`text-hover-primary`}>haha</span>
-                    </div>
-
-                  </div> */}
                 </div>
               )
             })
