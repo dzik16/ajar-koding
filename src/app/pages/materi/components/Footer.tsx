@@ -3,7 +3,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { toAbsoluteUrl } from '../../../../_molekul/helpers';
 import { useLayout } from '../../../../_molekul/layout/core';
 import { usePagination } from '../context/materiProvider';
-import { DataMateri, DetailMateriTypeResponse, HasilSoalType, materiCase, materiIfElse, materiIfThen, materiNestedIf, materiOperator } from '../../../interface/materi/materi.interface';
+import { DataMateri, DetailMateriTypeResponse, HasilSoalType, PertanyaanType, materiCase, materiIfElse, materiIfThen, materiNestedIf, materiOperator } from '../../../interface/materi/materi.interface';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getDetailMateriSiswaByID, updateFinishModul, updateRangkuman, updateSoal, updateStep } from '../../../api/Request/materi.siswa.api';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -17,9 +17,18 @@ type Props = {
   setResRangkuman: (resRangkuman: string) => void,
   resRangkuman: string
   hasilSoal: HasilSoalType[]
+  setPertanyaan: (pertanyaan: PertanyaanType[]) => void,
+  pertanyaan: PertanyaanType[]
 }
 
-const Footer: FC<Props> = ({ setIsLoading, rangkuman, setResRangkuman, resRangkuman, hasilSoal }) => {
+const Footer: FC<Props> = ({
+  setIsLoading,
+  rangkuman,
+  setResRangkuman,
+  resRangkuman,
+  hasilSoal,
+  pertanyaan,
+  setPertanyaan }) => {
   const { classes } = useLayout();
   const [materi, setMateri] = useState<DataMateri[]>(materiOperator)
   const page = usePagination()

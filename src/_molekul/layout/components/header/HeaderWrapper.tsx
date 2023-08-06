@@ -93,7 +93,7 @@ export function HeaderWrapper() {
                 </ul>
               </div>
 
-              {/* <div className='d-flex' style={{ height: '73px' }}>
+              <div className='d-flex' style={{ height: '73px' }}>
                 <ul className={`${location.pathname === '/forum' ? "border-bottom border-primary border-3" : ""} nav nav-stretch fs-5 fw-bolder w-110px`} style={{ bottom: '0' }}>
                   <li className='nav-item ps-5'>
                     <span
@@ -114,7 +114,7 @@ export function HeaderWrapper() {
                     </span>
                   </li>
                 </ul>
-              </div> */}
+              </div>
             </div>
           </div>
       }

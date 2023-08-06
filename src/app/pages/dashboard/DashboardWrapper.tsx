@@ -55,7 +55,7 @@ const DashboardPage = () => {
         <span className='text-gray-700 fs-4 fw-semibold d-block'>Selamat datang di Ajar Koding<br /> Tempat di Mana Bug Jadi Peliharaan dan Koding Jadi Komedi!</span>
       </div>
       <div className='row g-5 g-xl-8'>
-        <div className='col-xl-4'>
+        <div className='col-xl-3'>
           <StatisticsWidget5
             className='card-xl-stretch mb-xl-8 shadow-sm'
             svgIcon='call'
@@ -67,7 +67,7 @@ const DashboardPage = () => {
             descriptionColor='gray-400'
           />
         </div>
-        <div className='col-xl-4'>
+        <div className='col-xl-3'>
           <StatisticsWidget5
             className='card-xl-stretch mb-xl-8 shadow-sm'
             svgIcon='award'
@@ -79,7 +79,7 @@ const DashboardPage = () => {
             descriptionColor='gray-400'
           />
         </div>
-        <div className='col-xl-4'
+        <div className='col-xl-3'
           onClick={() => navigate('/materi')}
         >
           <StatisticsWidget5
@@ -93,7 +93,7 @@ const DashboardPage = () => {
             descriptionColor='gray-400 text-hover-primary'
           />
         </div>
-        {/* <div className='col-xl-3'
+        <div className='col-xl-3'
           onClick={() => navigate('/evaluasi')}
         >
           <StatisticsWidget5
@@ -106,7 +106,7 @@ const DashboardPage = () => {
             titleColor='gray-900'
             descriptionColor='gray-400 text-hover-primary'
           />
-        </div> */}
+        </div>
       </div>
       {/* end::Row */}
 

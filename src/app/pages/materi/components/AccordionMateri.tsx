@@ -2,7 +2,7 @@
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
 import { toAbsoluteUrl } from '../../../../_molekul/helpers'
-import { DataMateri, DetailMateriTypeResponse, HasilSoalType, materiCase, materiIfElse, materiIfThen, materiNestedIf, materiOperator } from '../../../interface/materi/materi.interface'
+import { DataMateri, DetailMateriTypeResponse, HasilSoalType, PertanyaanType, materiCase, materiIfElse, materiIfThen, materiNestedIf, materiOperator } from '../../../interface/materi/materi.interface'
 import { usePagination } from '../context/materiProvider'
 import { useLocation } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
@@ -18,9 +18,21 @@ type Props = {
   setResRangkuman: (resRangkuman: string) => void,
   resRangkuman: string,
   hasilSoal: HasilSoalType[]
+  setPertanyaan: (pertanyaan: PertanyaanType[]) => void,
+  pertanyaan: PertanyaanType[]
 }
 
-const AccordionMateri: React.FC<Props> = ({ className, setIsLoading, isLoading, rangkuman, setResRangkuman, resRangkuman, hasilSoal }) => {
+const AccordionMateri: React.FC<Props> = ({
+  className,
+  setIsLoading,
+  isLoading,
+  rangkuman,
+  setResRangkuman,
+  resRangkuman,
+  hasilSoal,
+  setPertanyaan,
+  pertanyaan
+}) => {
   const [materi, setMateri] = useState<DataMateri[]>(materiOperator)
   const { currentPage, setPage } = usePagination()
   const [materiParent, setMateriParent] = useState<string>("")

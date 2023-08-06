@@ -94,6 +94,7 @@ const MateriPage = () => {
                 fullname: '-',
                 step: 1,
                 latihan: [],
+                pertanyaan: [],
                 rangkuman: '',
                 tanggalMulai: formattedDate
               }
@@ -126,6 +127,7 @@ const MateriPage = () => {
               fullname: '-',
               step: 1,
               latihan: [],
+              pertanyaan: [],
               rangkuman: '',
               tanggalMulai: formattedDate
             }

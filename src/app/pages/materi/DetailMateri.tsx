@@ -8,7 +8,7 @@ import { ExampleProvider } from './context/exampleProvider';
 import { useLocation } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDetailMateriSiswaByID } from '../../api/Request/materi.siswa.api';
-import { DetailMateriTypeResponse, HasilSoalType } from '../../interface/materi/materi.interface';
+import { DetailMateriTypeResponse, HasilSoalType, PertanyaanType } from '../../interface/materi/materi.interface';
 
 const DetailMateri = () => {
   const [materiParent, setMateriParent] = useState<string>("")
@@ -25,6 +25,7 @@ const DetailMateri = () => {
   const [hasilSoal, setHasilSoal] = useState<HasilSoalType[]>([])
   const [finalHasilSoal, setFinalHasilSoal] = useState<HasilSoalType[]>([])
   const [detailMateri, setDetailMateri] = useState<DetailMateriTypeResponse>()
+  const [pertanyaan, setPertanyaan] = useState<PertanyaanType[]>([])
 
 
   useEffect(() => {
@@ -118,6 +119,8 @@ const DetailMateri = () => {
                 setHasilSoal={setHasilSoal}
                 finalHasilSoal={finalHasilSoal}
                 detailMateri={detailMateri}
+                setPertanyaan={setPertanyaan}
+                pertanyaan={pertanyaan}
               />
             </div>
             <div id="progress" className='col-xl-3 position-fixed mb-xl-3 border border-secondary border-2 rounded'
@@ -136,6 +139,8 @@ const DetailMateri = () => {
                 setResRangkuman={setResRangkuman}
                 resRangkuman={resRangkuman}
                 hasilSoal={hasilSoal}
+                setPertanyaan={setPertanyaan}
+                pertanyaan={pertanyaan}
               />
             </div>
             <Footer
@@ -143,7 +148,10 @@ const DetailMateri = () => {
               rangkuman={rangkuman}
               setResRangkuman={setResRangkuman}
               resRangkuman={resRangkuman}
-              hasilSoal={hasilSoal} />
+              hasilSoal={hasilSoal}
+              setPertanyaan={setPertanyaan}
+              pertanyaan={pertanyaan}
+            />
           </div>
         </ExampleProvider>
       </PaginationProvider>

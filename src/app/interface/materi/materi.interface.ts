@@ -54,7 +54,7 @@ export const materiOperator: DataMateri[] = [
                 src="/media/assetIsiMater/materi1/people_think.jpg"
                 style="height: 80%; width: 80%; margin-bottom: 20px;"
               />
-              <span style="font-size: 20px; text-align: justify; margin-left: 20px;">
+              <span style="font-size: 20px; text-align: justify;">
                 Pernahkah kalian ingin pergi ke sebuah tempat tertentu dengan menggunakan moda transportasi? Keputusan menggunakan sebuah moda transportasi untuk bepergian biasanya tergantung pada sebuah keadaan tertentu Misalnya, apabila kondisi hujan, maka kalian akan lebih memilih menggunakan mobil daripada menggunakan sepeda motor, namun apabila cuaca sedang cerah dan jarak yang ditempuh adalah dekat, maka kalian akan memilih menggunakan sepeda motor.
               </span>
             </div>
@@ -64,7 +64,7 @@ export const materiOperator: DataMateri[] = [
                 src="/media/assetIsiMater/materi1/computer.jpg"
                 style="height: 80%; width: 80%; margin-bottom: 20px;"
               />
-              <span style="font-size: 20px; text-align: justify; margin-left: 20px;">
+              <span style="font-size: 20px; text-align: justify;">
                 Komputer merupakan alat yang membantu banyak aktivitas manusia. Pada dasarnya, komputer menjalankan perintah dari manusia. Perintah-perintah tersebut dituangkan secara tertulis dalam sebuah aturan tertentu yang disebut sebagai kode program yang bertujuan untuk mengatur bagaimana komputer harus bertindak untuk menyelesaikan sebuah permasalahan tertentu. Hal ini termasuk juga dalam proses pengambilan keputusan, seperti halnya dalam contoh pemilihan moda transportasi di atas.
               </span>
             </div>
@@ -356,7 +356,6 @@ export const materiOperator: DataMateri[] = [
     status: "materi"
   }
 ];
-
 
 export const materiIfThen: DataMateri[] = [
   {
@@ -1890,6 +1889,7 @@ export interface DetailMateriTypeResponse {
   fullname: string
   tanggalMulai: string
   step: number
+  pertanyaan: PertanyaanType[]
   latihan: HasilSoalType[]
   rangkuman: string
 }
@@ -1926,4 +1926,9 @@ export interface HasilSoalType {
   jawaban: number,
   hasil: boolean,
   textJawaban: string
+}
+
+export interface PertanyaanType {
+  fullname: string,
+  pertanyaan: string
 }

@@ -38,6 +38,7 @@ const Aktivitas: React.FC<Props> = ({ className }) => {
             status: e[1].status,
             fullname: e[1].fullname,
             step: e[1].step,
+            pertanyaan: e[1].pertanyaan,
             latihan: e[1].latihan,
             rangkuman: e[1].rangkuman,
             tanggalMulai: e[1].tanggalMulai

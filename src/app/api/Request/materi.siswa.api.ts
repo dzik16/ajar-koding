@@ -1,4 +1,4 @@
-import { ArrayCreateMateri, CreateMateriTypeResponse, DetailMateriTypeResponse, HasilSoalType, UpdateRangkumanTypeResponse, UpdateSteptypeResponse } from '../../interface/materi/materi.interface';
+import { ArrayCreateMateri, CreateMateriTypeResponse, DetailMateriTypeResponse, HasilSoalType, PertanyaanType, UpdateRangkumanTypeResponse, UpdateSteptypeResponse } from '../../interface/materi/materi.interface';
 import BaseApi from '../BaseApi';
 
 export const getMateriSiswaByUID = async (uid: string): Promise<DetailMateriTypeResponse[]> => {
@@ -44,6 +44,35 @@ export const updateRangkuman = async (uid: string, id: string, rangkuman: string
     url: `materi/${uid}/${id}.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
     method: 'PATCH',
     data: { rangkuman }
+  })
+
+  return data
+}
+
+export const sendPertanyaan = async (kel: string, pertanyaan: PertanyaanType): Promise<any> => {
+  const { data } = await BaseApi().request<any>({
+    url: `/pertanyaanSiswa/${kel}.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
+    method: 'POST',
+    data: { pertanyaan }
+  })
+
+  return data
+}
+
+export const updatePertanyaan = async (kel: string, id: string, pertanyaan: PertanyaanType[]): Promise<PertanyaanType[]> => {
+  const { data } = await BaseApi().request<PertanyaanType[]>({
+    url: `/pertanyaanSiswa/${kel}/${id}.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
+    method: 'PATCH',
+    data: { pertanyaan }
+  })
+
+  return data
+}
+
+export const getPertanyaan = async (kel: string): Promise<PertanyaanType[]> => {
+  const { data } = await BaseApi().request<PertanyaanType[]>({
+    url: `/pertanyaanSiswa/${kel}.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
+    method: 'GET',
   })
 
   return data
