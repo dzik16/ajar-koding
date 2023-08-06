@@ -1,4 +1,4 @@
-import { ArrayCreateMateri, CreateMateriTypeResponse, DetailMateriTypeResponse, HasilSoalType, PertanyaanType, UpdateRangkumanTypeResponse, UpdateSteptypeResponse } from '../../interface/materi/materi.interface';
+import { ArrayCreateMateri, CreateMateriTypeResponse, DetailMateriTypeResponse, HasilSoalType, PertanyaanType, PertanyaanTypeResponse, UpdateRangkumanTypeResponse, UpdateSteptypeResponse } from '../../interface/materi/materi.interface';
 import BaseApi from '../BaseApi';
 
 export const getMateriSiswaByUID = async (uid: string): Promise<DetailMateriTypeResponse[]> => {
@@ -69,8 +69,8 @@ export const updatePertanyaan = async (kel: string, id: string, pertanyaan: Pert
   return data
 }
 
-export const getPertanyaan = async (kel: string): Promise<PertanyaanType[]> => {
-  const { data } = await BaseApi().request<PertanyaanType[]>({
+export const getPertanyaan = async (kel: string): Promise<PertanyaanTypeResponse[]> => {
+  const { data } = await BaseApi().request<PertanyaanTypeResponse[]>({
     url: `/pertanyaanSiswa/${kel}.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
     method: 'GET',
   })

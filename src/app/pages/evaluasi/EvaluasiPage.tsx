@@ -9,8 +9,8 @@ const Evaluasi = () => {
       <h1 className='mb-10 ms-20' style={{ fontSize: '30px' }}>Evaluasi</h1>
       <div className="d-flex row" style={{ justifyContent: 'center' }}>
         <div className="card col-sm-4 p-0 rounded shadow-sm"
-          onClick={() => navigate('/evaluasi/soal')}
-          style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
+          onClick={() => navigate('/evaluasi/lkpd', { state: { page: "r.59bd020134faab4ae5fac989f158c6af?showControls", ke: "1" } })}
+          style={{ width: '30%', height: '200px', cursor: 'pointer' }}>
           <div className="card-body p-0">
             <div className='d-flex rounded-top ' style={{ backgroundColor: '#E108B1', height: '60%', justifyContent: 'center' }}>
               <div className='me-5'>
@@ -18,12 +18,14 @@ const Evaluasi = () => {
               </div>
             </div>
             <div className='p-5'>
-              <h3>Pretest</h3>
-              <span className='badge badge-light-success'>Selesai</span>
+              <h3>Evaluasi Pertemuan 1</h3>
+              {/* <span className='badge badge-light-success'>Selesai</span> */}
             </div>
           </div>
         </div>
-        <div className="card col-sm-4 p-0 rounded shadow-sm ms-10 me-10" style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
+        <div className="card col-sm-4 p-0 rounded shadow-sm ms-10 me-10"
+          onClick={() => navigate('/evaluasi/lkpd', { state: { page: "r.0e7760b9b82d6338a9bf3c774f56384f", ke: "2" } })}
+          style={{ width: '30%', height: '200px', cursor: 'pointer' }}>
           <div className="card-body p-0">
             <div className='d-flex rounded-top ' style={{ backgroundColor: '#08E138', height: '60%', justifyContent: 'center' }}>
               <div className='me-5'>
@@ -31,12 +33,12 @@ const Evaluasi = () => {
               </div>
             </div>
             <div className='p-5'>
-              <h3>Pre Logic</h3>
-              <span className='badge badge-light-success'>Selesai</span>
+              <h3>Evaluasi Pertemuan 2</h3>
+              {/* <span className='badge badge-light-success'>Selesai</span> */}
             </div>
           </div>
         </div>
-        <div className="card col-sm-4 p-0 border rounded shadow-sm" style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
+        {/* <div className="card col-sm-4 p-0 border rounded shadow-sm" style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
           <div className="card-body p-0">
             <div className='d-flex rounded-top ' style={{ backgroundColor: '#0893E1', height: '60%', justifyContent: 'center' }}>
               <div className='me-5'>
@@ -48,9 +50,9 @@ const Evaluasi = () => {
               <span className='badge badge-light-danger'>Belum Mulai</span>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
-      <div className="d-flex row mt-10" style={{ justifyContent: 'center' }}>
+      {/* <div className="d-flex row mt-10" style={{ justifyContent: 'center' }}>
         <div className="card col-sm-4 p-0 rounded shadow-sm me-5" style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
           <div className="card-body p-0">
             <div className='d-flex rounded-top ' style={{ backgroundColor: '#E1D808', height: '60%', justifyContent: 'center' }}>
@@ -77,7 +79,7 @@ const Evaluasi = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

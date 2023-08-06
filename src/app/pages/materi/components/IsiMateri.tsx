@@ -11,7 +11,7 @@ import clsx from 'clsx'
 import { getProfileSiswa } from '../../../api/Request/profile.siswa.api'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { CreateProfileSiswaType } from '../../../interface/profile.siswa.interface'
-import { getPertanyaan, sendPertanyaan, updatePertanyaan } from '../../../api/Request/materi.siswa.api'
+import { getDetailMateriSiswaByID, getPertanyaan, sendPertanyaan, updatePertanyaan } from '../../../api/Request/materi.siswa.api'
 import Swal from 'sweetalert2'
 
 type Props = {
@@ -49,11 +49,14 @@ const IsiMateri: React.FC<Props> = ({
   const [selectedOptions, setSelectedOptions] = useState<string>("");
   const [newPertanyaan, setNewPertanyaan] = useState<string>('')
   const [profileSiswa, setProfileSiswa] = useState<CreateProfileSiswaType>()
+  const [idMateri, setIdMateri] = useState<string>("")
   const auth = getAuth()
 
   useEffect(() => {
     onAuthStateChanged(auth, e => {
       handleGetProfile(e?.uid)
+      //@ts-ignore
+      setIdMateri(location.state.idMateri)
     })
   }, [])
 
@@ -223,140 +226,92 @@ const IsiMateri: React.FC<Props> = ({
               <div>
                 <h1 className='mb-5' style={{ fontSize: '30px' }}>{materi[0].materi.isiMateri[page.currentPage - 1].judulMateri}</h1>
                 <div dangerouslySetInnerHTML={{ __html: materi[currentPageTitleModul.currentPageTitleModul - 1].materi.isiMateri[page.currentPage - 1].htmlMateri ? materi[currentPageTitleModul.currentPageTitleModul - 1].materi.isiMateri[page.currentPage - 1].htmlMateri! : "" }} />
-                <div>
-                  <h1 className='mb-5 mt-20' style={{ fontSize: '30px' }}>Form Pertanyaan</h1>
-                  <span style={{ fontSize: '20px' }}>
-                    Jika kalian merasa kesulitan dalam memahami materi yang kalian pelajari silahkan masukan pertanyaan di bawah ini yaa, terkait pertanyaan kalian nantinya akan di bahas di forum kelompok kalian
-                  </span>
-                  {/* {
-                    pertanyaan.length !== 0 && pertanyaan.map((e, i) => {
-                      return (
-                        <div className='d-flex mb-1 mt-2 align-items-center' key={i}>
-                          <div
-                            onClick={() => {
-                              deleteListPertanyaan(i)
-                            }}
-                            style={{ cursor: 'pointer' }}
-                          >
-                            <KTSVG
-                              path='/media/icons/duotune/general/ic_close.svg'
-                              className='svg-icon-1 me-4 mb-1'
-                            />
-                          </div>
-                          <span className='form-control my-1'>{e.pertanyaan}</span>
-                        </div>
-                      )
-                    })
-                  } */}
-                  {/* {
-                    pertanyaan.length !== 0 ?
-                      <div className='mb-4 pe-2 mt-4' style={{ justifySelf: 'center' }}>
-                        <a
-                          className='d-flex align-items-center text-gray-800 text-hover-danger'
-                          onClick={() => setNewPertanyaan('')}
-                          style={{ cursor: 'pointer' }}
-                          data-bs-toggle='modal'
-                          data-bs-target='#kt_modal_add_featuring'
-                        >
-                          <KTSVG
-                            path='/media/icons/duotune/general/ic_add_musician.svg'
-                            className='svg-icon-1 me-4 mb-1'
-                          />
-                          Tambahkan Pertanyaan
-                        </a>
-                      </div>
-                      :
-                      <></>
-                  } */}
 
-                  <div className='d-flex mt-10' style={{ justifyContent: 'center' }}>
-                    {/* {
-                      pertanyaan.length !== 0 ?
+                {
+                  detailMateri && detailMateri.status.toLowerCase() !== "selesai"
+                    ?
+                    <div>
+                      <h1 className='mb-5 mt-20' style={{ fontSize: '30px' }}>Form Pertanyaan</h1>
+                      <span style={{ fontSize: '20px' }}>
+                        Jika kalian merasa kesulitan dalam memahami materi yang kalian pelajari silahkan masukan pertanyaan di bawah ini yaa, terkait pertanyaan kalian nantinya akan di bahas di forum kelompok kalian
+                      </span>
+                      <div className='d-flex mt-10' style={{ justifyContent: 'center' }}>
                         <button
                           className={clsx(
                             `btn btn-primary w-200px`
                           )}
+                          onClick={() => setNewPertanyaan('')}
                           type={`button`}
-                          onClick={handleSendPertanyaan}
+                          data-bs-toggle='modal'
+                          data-bs-target='#kt_modal_add_featuring'
                         >
-                          Kirim Pertanyaan
+                          Tambahkan Pertanyaan
                         </button>
-                        : */}
-                    <button
-                      className={clsx(
-                        `btn btn-primary w-200px`
-                      )}
-                      onClick={() => setNewPertanyaan('')}
-                      type={`button`}
-                      data-bs-toggle='modal'
-                      data-bs-target='#kt_modal_add_featuring'
-                    >
-                      Tambahkan Pertanyaan
-                    </button>
-                    {/* } */}
-
-                    <div
-                      className='modal fade modal-lg'
-                      tabIndex={-1}
-                      id='kt_modal_add_featuring'
-                    >
-                      <div className='modal-dialog modal-dialog-centered'>
-                        <div className='modal-content'>
-                          <div className='p-8'>
-                            <span className='fs-2 fw-bold text-gray-700'>
-                              Form Pertanyaan
-                            </span>{' '}
-                            <br />
-                            <span className='text-gray-500'>
-                              Masukkan pertanyaan kamu dibawah ini ya!
-                            </span>
-                          </div>
-                          <div className='ps-8 pe-8'>
-                            <input
-                              type='text'
-                              className='form-control'
-                              placeholder='Apa itu algoritma dan pemrograman?'
-                              onChange={(e) => setNewPertanyaan(e.target.value)}
-                            />
-                          </div>
-                          <div
-                            className='d-flex mt-10 modal-footer'
-                            style={{ justifyContent: 'flex-end', width: '100%' }}
-                          >
-                            <div>
-                              <button
-                                type='button'
-                                data-bs-dismiss='modal'
-                                className='btn btn-outline btn-outline-danger btn-active-light-danger w-200px me-4'
+                        <div
+                          className='modal fade modal-lg'
+                          tabIndex={-1}
+                          id='kt_modal_add_featuring'
+                        >
+                          <div className='modal-dialog modal-dialog-centered'>
+                            <div className='modal-content'>
+                              <div className='p-8'>
+                                <span className='fs-2 fw-bold text-gray-700'>
+                                  Form Pertanyaan
+                                </span>{' '}
+                                <br />
+                                <span className='text-gray-500'>
+                                  Masukkan pertanyaan kamu pada form dibawah ya!
+                                </span>
+                              </div>
+                              <div className='ps-8 pe-8'>
+                                <input
+                                  type='text'
+                                  className='form-control'
+                                  placeholder='Apa itu algoritma dan pemrograman?'
+                                  onChange={(e) => setNewPertanyaan(e.target.value)}
+                                />
+                              </div>
+                              <div
+                                className='d-flex mt-10 modal-footer'
+                                style={{ justifyContent: 'flex-end', width: '100%' }}
                               >
-                                Batalkan
-                              </button>
-                            </div>
-                            <div>
-                              <button
-                                className='btn btn-danger w-200px'
-                                data-bs-dismiss='modal'
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                  if (newPertanyaan !== '' && profileSiswa) {
-                                    const listPertanyaan = {
-                                      fullname: profileSiswa.name,
-                                      pertanyaan: newPertanyaan
-                                    }
-                                    handleSendPertanyaan(listPertanyaan)
-                                  }
-                                }}
-                                disabled={newPertanyaan ? false : true}
-                              >
-                                Kirim Pertanyaan
-                              </button>
+                                <div>
+                                  <button
+                                    type='button'
+                                    data-bs-dismiss='modal'
+                                    className='btn btn-outline btn-outline-danger btn-active-light-danger w-200px me-4'
+                                  >
+                                    Batalkan
+                                  </button>
+                                </div>
+                                <div>
+                                  <button
+                                    className='btn btn-danger w-200px'
+                                    data-bs-dismiss='modal'
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => {
+                                      if (newPertanyaan !== '' && profileSiswa) {
+                                        const listPertanyaan = {
+                                          fullname: profileSiswa.name,
+                                          pertanyaan: newPertanyaan
+                                        }
+                                        handleSendPertanyaan(listPertanyaan)
+                                      }
+                                    }}
+                                    disabled={newPertanyaan ? false : true}
+                                  >
+                                    Kirim Pertanyaan
+                                  </button>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                    :
+                    <></>
+                }
               </div>
 
               {/* <PrettyPrintWrapper code={codeExample} language="javascript" /> */}
@@ -364,17 +319,54 @@ const IsiMateri: React.FC<Props> = ({
             :
             materi[currentPageTitleModul.currentPageTitleModul - 1].materi.isiMateri[page.currentPage - 1].type === "rangkuman" ?
               <div className='d-flex row' style={{ justifyContent: 'center' }}>
-                <span style={{ fontSize: '20px', textAlign: 'justify', marginBottom: "20px" }}>
-                  Silahkan Mengajukan pertanyaan kepada anggota kelompok untuk memperdalam pemahamanmu <a href='/group' target="_blank">disini</a> ya.
-                </span>
                 <img
                   alt='Logo'
                   src={toAbsoluteUrl('/media/assetIsiMater/materi1/discus.jpg')}
                   className='logo-default mb-5'
-                  style={{ height: "100%", width: '100%' }}
+                  style={{ height: "70%", width: '70%' }}
                 />
+
+                <h1>Selamat datang di sesi diskusi dengan Reciprocal Teaching!🎉</h1>
                 <span style={{ fontSize: '20px', textAlign: 'justify', marginBottom: "20px" }}>
-                  Setelah diskusi dalam kelompok selesai silahkan masukan rangkuman terkait materi yang telah dipelajari pada form di bawah ini!
+                  <br />
+                  Setelah kamu mempelajari materi tentang <strong>"{materi[currentPageTitleModul.currentPageTitleModul - 1].materi.titleModul}"</strong> dan telah mengajukan pertanyaan kepada kelompok kamu,
+                  selanjutnya adalah sesi diskusi bersama kelompok untuk membahas lebih lanjut terkait pertanyaan dari kamu dan teman-teman kelompok yang lain
+                  <br />
+                  <br />
+                  Sebelum Masuk ke sesi diskusi ada poin-poin penting yang perlu kalian pahami terlebih dahulu :
+                  <br />
+                  <br />
+                  <ul>
+                    <li>
+                      1. Pertama-tama, saya akan menjelaskan tujuan dari sesi diskusi ini. Tujuannya adalah agar setiap peserta dapat aktif berpartisipasi dalam diskusi dan saling membantu satu sama lain untuk memahami materi yang dibahas.
+                    </li>
+                    <br />
+                    <li>
+                      2. Setiap kelompok akan memiliki peran rotasi yang terdiri dari 4 peran, yaitu Leader, Predictor, Clarifier, dan Summarizer.
+                    </li>
+                    <br />
+                    <li>
+                      3. Leader: Leader akan memfasilitasi jalannya diskusi, memastikan setiap anggota kelompok memiliki kesempatan untuk berbicara, dan menjaga waktu agar sesi berjalan lancar.
+                    </li>
+                    <br />
+                    <li>
+                      4. Predictor: Predictor akan memprediksi apa yang akan dibahas dalam teks atau materi yang akan didiskusikan. Setiap anggota kelompok akan berusaha untuk mengidentifikasi hal-hal penting dan membuat pertanyaan terkait materi.
+                    </li>
+                    <br />
+                    <li>
+                      5. Clarifier: Clarifier bertanggung jawab untuk mencari dan memberikan penjelasan atas hal-hal yang kurang dipahami atau membingungkan dari materi yang dibahas.
+                    </li>
+                    <br />
+                    <li>
+                      6. Summarizer: Summarizer akan menyimpulkan inti dari diskusi dan materi yang telah dibahas oleh kelompok.
+                    </li>
+                    <br />
+                  </ul>
+                  Untuk sesi diskusi kalian bisa akses <a href='/group' target="_blank">disini</a> ya.
+                </span>
+
+                <span style={{ fontSize: '20px', textAlign: 'justify', marginBottom: "20px" }}>
+                  Setelah diskusi dalam kelompok selesai silahkan masukan rangkuman terkait materi yang telah kelian diskusikan pada form di bawah ini!
                 </span>
                 <div className="">
                   {

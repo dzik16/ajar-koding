@@ -63,7 +63,9 @@ export function Registration() {
             name: values.fullname,
             nomor_absen: values.absen,
             email: values.email,
-            imageProfile: image
+            imageProfile: image,
+            kelompok: "kel1",
+            type: "siswa"
           }
           const postProfileSiswa = await createProfileSiswa(ress.user.uid, bodyProfile)
           const bodyPringkat: CreatePeringkatType = {

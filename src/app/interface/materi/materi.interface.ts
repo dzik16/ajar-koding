@@ -1932,3 +1932,7 @@ export interface PertanyaanType {
   fullname: string,
   pertanyaan: string
 }
+
+export interface PertanyaanTypeResponse {
+  pertanyaan: PertanyaanType
+}
