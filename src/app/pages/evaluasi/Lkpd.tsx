@@ -50,7 +50,7 @@ const Lkpd: FC = () => {
           <div className=''>
             <ul>
               <li>
-                <span style={{ fontSize: '20px' }} className='text-dark'>Untuk menjawab soal evaluasi kalian bisa mengerjakan <a href="/evaluasi/file" target='_blank'>disini</a>.</span>
+                <span style={{ fontSize: '20px' }} className='text-dark'>Untuk menjawab soal evaluasi kalian bisa mengerjakan <a href="/evaluasi/siswa" target='_blank'>disini</a>.</span>
               </li>
               <br />
               <li>

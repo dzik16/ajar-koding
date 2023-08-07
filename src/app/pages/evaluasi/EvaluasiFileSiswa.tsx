@@ -6,7 +6,7 @@ import { getProfileSiswa } from '../../api/Request/profile.siswa.api'
 import Lottie from 'lottie-react'
 import animLoading from '../../../_molekul/assets/loading/animLoading.json'
 
-const EvaluasiFile: FC = () => {
+const EvaluasiFileSiswa: FC = () => {
   const auth = getAuth()
   const [uuid, setUuid] = useState<string>()
   //@ts-ignore
@@ -17,11 +17,6 @@ const EvaluasiFile: FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    //@ts-ignore
-    if (location.state.noAbsen) {
-      //@ts-ignore
-      setNoAbsen(location.state.noAbsen)
-    }
     onAuthStateChanged(auth, e => {
       setUuid(e?.uid)
       handleGetProfile(e?.uid)
@@ -33,13 +28,8 @@ const EvaluasiFile: FC = () => {
       if (uid) {
         const resGetPertanyaan = await getProfileSiswa(uid)
         const output = Object.entries(resGetPertanyaan)
-        if (output[1][1].type.toLowerCase() === "siswa") {
-          setAbsen(output[1][1].nomor_absen.toString())
-          console.log(output[1][1].nomor_absen.toString());
-          setLoading(false)
-        } else {
-          setLoading(false)
-        }
+        setNoAbsen(output[0][1].nomor_absen.toString())
+        setLoading(false)
       }
     } catch (error) {
       console.error(error);
@@ -59,7 +49,7 @@ const EvaluasiFile: FC = () => {
           </div>
         ) : (
           <div className='d-flex flex-column flex-lg-row rounded pt-2 shadow-sm p-2' style={{ justifyContent: 'center', alignContent: 'center' }}>
-            <iframe width="100%" height="620" src={`https://villageharmony.fun:9001/p/${absen ? `${absen}` : `${noAbsen}`}`} title="Forum Diskusi" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; camera https://villageharmony.fun:9001; microphone https://villageharmony.fun:9001" allowFullScreen></iframe>
+            <iframe width="100%" height="620" src={`https://villageharmony.fun:9001/p/${noAbsen}`} title="Forum Diskusi" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; camera https://villageharmony.fun:9001; microphone https://villageharmony.fun:9001" allowFullScreen></iframe>
           </div >
         )
       }
@@ -69,4 +59,4 @@ const EvaluasiFile: FC = () => {
 
 }
 
-export default EvaluasiFile
+export default EvaluasiFileSiswa

@@ -1,8 +1,8 @@
 import { CreateProfileSiswaType, ProfileSiswaTypeResponse } from '../../interface/profile.siswa.interface';
 import BaseApi from '../BaseApi';
 
-export const getProfileSiswa = async (uid: string): Promise<CreateProfileSiswaType> => {
-  const { data } = await BaseApi().request<CreateProfileSiswaType>({
+export const getProfileSiswa = async (uid: string): Promise<CreateProfileSiswaType[]> => {
+  const { data } = await BaseApi().request<CreateProfileSiswaType[]>({
     url: `users/siswa/${uid}.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
     method: 'GET',
   });
@@ -19,3 +19,13 @@ export const createProfileSiswa = async (uid: string, props: CreateProfileSiswaT
 
   return data
 }
+
+
+export const getAllSiswa = async (): Promise<CreateProfileSiswaType[][]> => {
+  const { data } = await BaseApi().request<CreateProfileSiswaType[][]>({
+    url: `users/siswa.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
+    method: 'GET',
+  });
+
+  return data;
+};

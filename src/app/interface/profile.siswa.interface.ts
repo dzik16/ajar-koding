@@ -5,6 +5,8 @@ export interface ProfileSiswaTypeResponse {
   post_test: number
   pre_test: number
   submateri: number
+  type: string
+  kelompok: string
 }
 
 export interface CreateProfileSiswaType {

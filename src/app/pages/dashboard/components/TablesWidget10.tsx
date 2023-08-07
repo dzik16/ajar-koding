@@ -7,10 +7,11 @@ import { CreatePeringkatType } from '../../../interface/peringkat.interface'
 import { getProfileSiswa } from '../../../api/Request/profile.siswa.api'
 
 type Props = {
-  className: string
+  className: string,
+  title?: string
 }
 
-const TablesWidget10: React.FC<Props> = ({ className }) => {
+const TablesWidget10: React.FC<Props> = ({ className, title }) => {
   const [uuid, setUuid] = useState<string | undefined>("")
   const auth = getAuth()
   const [listPeringkat, setListPeringkat] = useState<CreatePeringkatType[]>([])
@@ -69,7 +70,7 @@ const TablesWidget10: React.FC<Props> = ({ className }) => {
       {/* begin::Header */}
       <div className='card-header border-0 pt-5'>
         <h3 className='card-title align-items-start flex-column'>
-          <span className='card-label fw-bold fs-3 mb-1'>Papan Peringkat 5 Teratas</span>
+          <span className='card-label fw-bold fs-3 mb-1'>{title}</span>
         </h3>
       </div>
       {/* end::Header */}
