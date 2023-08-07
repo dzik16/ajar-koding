@@ -7,6 +7,8 @@ import { getAllSiswa, getProfileSiswa } from '../../api/Request/profile.siswa.ap
 import Lottie from 'lottie-react'
 import animLoading from '../../../_molekul/assets/loading/animLoading.json'
 import clsx from 'clsx'
+import { isEvaluasi } from '../../api/Request/materi.siswa.api'
+import Swal from 'sweetalert2'
 
 const Evaluasi = () => {
   const navigate = useNavigate()
@@ -82,6 +84,29 @@ const Evaluasi = () => {
     }
   }
 
+  const handleNavigate = async (navigateParams: string, page: string, ke: string) => {
+    try {
+      const resGetIsEvaluasi = await isEvaluasi()
+      if (resGetIsEvaluasi.isEvaluasi) {
+        navigate(navigateParams, { state: { page: page, ke: ke } })
+      } else {
+        const swalSuccess = Swal.mixin({
+          customClass: {
+            confirmButton: 'btn btn-danger',
+          },
+          buttonsStyling: false
+        })
+        swalSuccess.fire({
+          title: `Mohon maaf Evaluasi belum dibuka!`,
+          icon: 'error',
+          confirmButtonText: 'Dismiss',
+        })
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <>
       {
@@ -98,10 +123,13 @@ const Evaluasi = () => {
               profileSiswa?.type.toLowerCase() === "siswa"
                 ?
                 <>
-                  <h1 className='mb-10 ms-20' style={{ fontSize: '30px' }}>Evaluasi</h1>
+                  <h1 className='mb-10 ms-20' style={{ fontSize: '30px' }}>Evaluasi Harian</h1>
                   <div className="d-flex row" style={{ justifyContent: 'center' }}>
                     <div className="card col-sm-4 p-0 rounded shadow-sm"
-                      onClick={() => navigate('/evaluasi/lkpd', { state: { page: "r.59bd020134faab4ae5fac989f158c6af?showControls", ke: "1" } })}
+                      onClick={() =>
+                        handleNavigate('/evaluasi/lkpd', 'r.59bd020134faab4ae5fac989f158c6af?showControls', '1')
+                        // navigate('/evaluasi/lkpd', { state: { page: "r.59bd020134faab4ae5fac989f158c6af?showControls", ke: "1" } })}
+                      }
                       style={{ width: '30%', height: '200px', cursor: 'pointer' }}>
                       <div className="card-body p-0">
                         <div className='d-flex rounded-top ' style={{ backgroundColor: '#E108B1', height: '60%', justifyContent: 'center' }}>
@@ -116,7 +144,7 @@ const Evaluasi = () => {
                       </div>
                     </div>
                     <div className="card col-sm-4 p-0 rounded shadow-sm ms-10 me-10"
-                      onClick={() => navigate('/evaluasi/lkpd', { state: { page: "r.0e7760b9b82d6338a9bf3c774f56384f", ke: "2" } })}
+                      onClick={() => handleNavigate('/evaluasi/lkpd', 'r.0e7760b9b82d6338a9bf3c774f56384f', '2')}
                       style={{ width: '30%', height: '200px', cursor: 'pointer' }}>
                       <div className="card-body p-0">
                         <div className='d-flex rounded-top ' style={{ backgroundColor: '#08E138', height: '60%', justifyContent: 'center' }}>
@@ -130,19 +158,83 @@ const Evaluasi = () => {
                         </div>
                       </div>
                     </div>
-                    {/* <div className="card col-sm-4 p-0 border rounded shadow-sm" style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
-              <div className="card-body p-0">
-                <div className='d-flex rounded-top ' style={{ backgroundColor: '#0893E1', height: '60%', justifyContent: 'center' }}>
-                  <div className='me-5'>
-                    <img style={{ width: "120px" }} src={toAbsoluteUrl('/media/illustrations/light/SVG/__moneybox.svg')} alt='' />
                   </div>
-                </div>
-                <div className='p-5'>
-                  <h3>Posttest</h3>
-                  <span className='badge badge-light-danger'>Belum Mulai</span>
-                </div>
-              </div>
-            </div> */}
+
+
+                  <div className='mt-20'>
+                    <h1 className='mb-10 ms-20' style={{ fontSize: '30px' }}>Evaluasi Soal</h1>
+                    <div className="d-flex row mt-10" style={{ justifyContent: 'center' }}>
+                      <div className="card col-sm-4 p-0 rounded shadow-sm me-5" onClick={() => navigate('/evaluasi/soal')} style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
+                        <div className="card-body p-0">
+                          <div className='d-flex rounded-top ' style={{ backgroundColor: '#E1D808', height: '60%', justifyContent: 'center' }}>
+                            <div className='me-5'>
+                              <img style={{ width: "120px" }} src={toAbsoluteUrl('/media/illustrations/light/SVG/__telescope.svg')} alt='' />
+                            </div>
+                          </div>
+                          <div className='p-5'>
+                            <h3>Pre-Test</h3>
+                            <span className='badge badge-light-danger'>Belum Mulai</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="card col-sm-4 p-0 border rounded shadow-sm" style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
+                        <div className="card-body p-0">
+                          <div className='d-flex rounded-top ' style={{ backgroundColor: '#0893E1', height: '60%', justifyContent: 'center' }}>
+                            <div className='me-5'>
+                              <img style={{ width: "120px" }} src={toAbsoluteUrl('/media/illustrations/light/SVG/__moneybox.svg')} alt='' />
+                            </div>
+                          </div>
+                          <div className='p-5'>
+                            <h3>Post-Test</h3>
+                            <span className='badge badge-light-danger'>Belum Mulai</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="card col-sm-4 p-0 rounded shadow-sm ms-5" style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
+                        <div className="card-body p-0">
+                          <div className='d-flex rounded-top ' style={{ backgroundColor: '#E10856', height: '60%', justifyContent: 'center' }}>
+                            <div className='me-5'>
+                              <img style={{ width: "120px" }} src={toAbsoluteUrl('/media/illustrations/light/SVG/__to add.svg')} alt='' />
+                            </div>
+                          </div>
+                          <div className='p-5'>
+                            <h3>Pre Logic</h3>
+                            <span className='badge badge-light-danger'>Belum Mulai</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="d-flex row mt-10" style={{ justifyContent: 'center' }}>
+                      <div className="card col-sm-4 p-0 rounded shadow-sm me-5" style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
+                        <div className="card-body p-0">
+                          <div className='d-flex rounded-top ' style={{ backgroundColor: '#E108B1', height: '60%', justifyContent: 'center' }}>
+                            <div className='me-5'>
+                              <img style={{ width: "120px" }} src={toAbsoluteUrl('/media/illustrations/light/SVG/__Annual Report.svg')} alt='' />
+                            </div>
+                          </div>
+                          <div className='p-5'>
+                            <h3>Post Logic</h3>
+                            <span className='badge badge-light-danger'>Belum Mulai</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="card col-sm-4 p-0 rounded shadow-sm ms-5" style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
+                        <div className="card-body p-0">
+                          <div className='d-flex rounded-top ' style={{ backgroundColor: '#08E138', height: '60%', justifyContent: 'center' }}>
+                            <div className='me-5'>
+                              <img style={{ width: "120px" }} src={toAbsoluteUrl('/media/illustrations/light/SVG/__goods.svg')} alt='' />
+                            </div>
+                          </div>
+                          <div className='p-5'>
+                            <h3>Penilaian Media</h3>
+                            <span className='badge badge-light-danger'>Belum Mulai</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </>
                 :
@@ -214,36 +306,6 @@ const Evaluasi = () => {
                   {/* begin::Body */}
                 </>
             }
-
-            {/* <div className="d-flex row mt-10" style={{ justifyContent: 'center' }}>
-            <div className="card col-sm-4 p-0 rounded shadow-sm me-5" style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
-              <div className="card-body p-0">
-                <div className='d-flex rounded-top ' style={{ backgroundColor: '#E1D808', height: '60%', justifyContent: 'center' }}>
-                  <div className='me-5'>
-                    <img style={{ width: "120px" }} src={toAbsoluteUrl('/media/illustrations/light/SVG/__telescope.svg')} alt='' />
-                  </div>
-                </div>
-                <div className='p-5'>
-                  <h3>Post Logic</h3>
-                  <span className='badge badge-light-danger'>Belum Mulai</span>
-                </div>
-              </div>
-            </div>
-            <div className="card col-sm-4 p-0 rounded shadow-sm ms-5" style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
-              <div className="card-body p-0">
-                <div className='d-flex rounded-top ' style={{ backgroundColor: '#E10856', height: '60%', justifyContent: 'center' }}>
-                  <div className='me-5'>
-                    <img style={{ width: "120px" }} src={toAbsoluteUrl('/media/illustrations/light/SVG/__to add.svg')} alt='' />
-                  </div>
-                </div>
-                <div className='p-5'>
-                  <h3>Penilaian Media</h3>
-                  <span className='badge badge-light-danger'>Belum Mulai</span>
-                </div>
-              </div>
-            </div>
-          </div> */}
-
           </div >
         )
       }

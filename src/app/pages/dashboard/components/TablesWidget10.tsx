@@ -46,7 +46,8 @@ const TablesWidget10: React.FC<Props> = ({ className, title }) => {
           fullname: ha[0][1].fullname,
           email: ha[0][1].email,
           nomorAbsen: ha[0][1].nomorAbsen,
-          poin: ha[0][1].poin
+          poin: ha[0][1].poin,
+          image_profile: ha[0][1].image_profile
         }
         setListMateri(body)
       })
@@ -98,7 +99,7 @@ const TablesWidget10: React.FC<Props> = ({ className, title }) => {
                       <td>
                         <div className='d-flex align-items-center'>
                           <div className='symbol symbol-45px me-5'>
-                            <img src={imageProfile} alt='' />
+                            <img src={e.image_profile} alt='' />
                           </div>
                           <div className='d-flex justify-content-start flex-column'>
                             <a href='#' className='text-dark fw-bold text-hover-primary fs-4'>

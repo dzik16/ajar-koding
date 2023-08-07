@@ -51,14 +51,16 @@ const IsiMateri: React.FC<Props> = ({
   const [profileSiswa, setProfileSiswa] = useState<CreateProfileSiswaType>()
   const [idMateri, setIdMateri] = useState<string>("")
   const auth = getAuth()
+  const [uuid, setUuid] = useState<string | undefined>("")
 
   useEffect(() => {
+    //@ts-ignore
+    setIdMateri(location.state.idMateri)
     onAuthStateChanged(auth, e => {
       handleGetProfile(e?.uid)
-      //@ts-ignore
-      setIdMateri(location.state.idMateri)
+      setUuid(e?.uid)
     })
-  }, [])
+  }, [uuid])
 
   const handleGetProfile = async (uid: string | undefined) => {
     try {
@@ -90,6 +92,22 @@ const IsiMateri: React.FC<Props> = ({
       } else if (materiParent === "m-k-e") {
         setMateri(materiNestedIf)
       }
+    }
+
+    if (page.currentPage === 1 && materiParent === "m-k-a") {
+      const swalSuccess = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+        },
+        buttonsStyling: false
+      })
+      const title = `Selamat datang di pembelajaran menggunakan Model Reciprocal Teaching, Jika kalian merasa kesulitan dalam memahami materi kalian bisa mengirimkan pertanyaan yang ada di halaman paling bawah di setiap materinya dan terkait pertanyaan kalian nantinya akan di bahas di forum kelompok kalian. <br/><br/><p style="font-size: 16px; text-align: center;">Semangat Balajar💪</p>`
+      swalSuccess.fire({
+        title: `Hallo, Selamat Datang!`,
+        html: `<p style="font-size: 16px; text-align: justify;">${title}</p>`,
+        icon: 'success',
+        confirmButtonText: 'Semangat!',
+      })
     }
   }, [materiParent, materi])
 
@@ -152,23 +170,6 @@ const IsiMateri: React.FC<Props> = ({
     }
   }
 
-  // const setLitsPertanyaan = (list: PertanyaanType) => {
-  //   const found = pertanyaan.find((obj) => {
-  //     return obj.pertanyaan.toLowerCase() === list.pertanyaan.toLowerCase()
-  //   })
-  //   if (!found) {
-  //     pertanyaan.push(list)
-  //   }
-  //   setNewPertanyaan('')
-  // }
-
-  // const deleteListPertanyaan = (key: number) => {
-  //   if (key > -1) {
-  //     pertanyaan.splice(key, 1)
-  //     setNewPertanyaan('a')
-  //   }
-  // }
-
   const handleSendPertanyaan = async (list: PertanyaanType) => {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -193,8 +194,8 @@ const IsiMateri: React.FC<Props> = ({
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          if (list) {
-            const resSendPertanyaan = await sendPertanyaan("kel1", list)
+          if (list && profileSiswa) {
+            const resSendPertanyaan = await sendPertanyaan(profileSiswa?.kelompok, list)
             if (resSendPertanyaan) {
               swalSuccess.fire({
                 title: `Pertanyaan Berhasil Dikirim`,
@@ -362,11 +363,11 @@ const IsiMateri: React.FC<Props> = ({
                     </li>
                     <br />
                   </ul>
-                  Untuk sesi diskusi kalian bisa akses <a href='/group' target="_blank">disini</a> ya.
+                  Untuk sesi diskusi kalian bisa akses <a href='/forum' target="_blank">disini</a> ya.
                 </span>
 
                 <span style={{ fontSize: '20px', textAlign: 'justify', marginBottom: "20px" }}>
-                  Setelah diskusi dalam kelompok selesai silahkan masukan rangkuman terkait materi yang telah kelian diskusikan pada form di bawah ini!
+                  Setelah diskusi dalam kelompok selesai silahkan masukan rangkuman terkait materi yang telah kalian diskusikan pada form di bawah ini!
                 </span>
                 <div className="">
                   {

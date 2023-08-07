@@ -21,9 +21,9 @@ const Footer: FC = () => {
           />
           <span className='text-gray-500' style={{ fontSize: '16px', fontWeight: 'bold' }}>Sebelumnya</span>
         </div>
-        <div>
+        {/* <div>
           <span style={{ fontSize: '16px', fontWeight: 'bold' }}>Konsep Algoritma & Pemrograman Dasar</span>
-        </div>
+        </div> */}
         <div className='hover-overlay' style={{ cursor: 'pointer' }}>
           <span className='text-primary' style={{ fontSize: '16px', fontWeight: 'bold' }}>Selanjutnya</span>
           <img

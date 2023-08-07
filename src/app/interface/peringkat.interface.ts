@@ -3,4 +3,5 @@ export interface CreatePeringkatType {
   email: string,
   nomorAbsen: string,
   poin: number
+  image_profile: string
 }

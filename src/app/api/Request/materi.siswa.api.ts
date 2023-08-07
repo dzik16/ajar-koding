@@ -1,4 +1,4 @@
-import { ArrayCreateMateri, CreateMateriTypeResponse, DetailMateriTypeResponse, HasilSoalType, PertanyaanType, PertanyaanTypeResponse, UpdateRangkumanTypeResponse, UpdateSteptypeResponse } from '../../interface/materi/materi.interface';
+import { ArrayCreateMateri, CreateMateriTypeResponse, DetailMateriTypeResponse, HasilSoalType, IsEvaluasiTypeResponse, PertanyaanType, PertanyaanTypeResponse, UpdateRangkumanTypeResponse, UpdateSteptypeResponse } from '../../interface/materi/materi.interface';
 import BaseApi from '../BaseApi';
 
 export const getMateriSiswaByUID = async (uid: string): Promise<DetailMateriTypeResponse[]> => {
@@ -59,6 +59,16 @@ export const sendPertanyaan = async (kel: string, pertanyaan: PertanyaanType): P
   return data
 }
 
+export const sendPertanyaanToRoom = async (room: string, pertanyaan: PertanyaanType): Promise<any> => {
+  const { data } = await BaseApi().request<any>({
+    url: `/pertanyaanSiswa/${room}.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
+    method: 'POST',
+    data: { pertanyaan }
+  })
+
+  return data
+}
+
 export const updatePertanyaan = async (kel: string, id: string, pertanyaan: PertanyaanType[]): Promise<PertanyaanType[]> => {
   const { data } = await BaseApi().request<PertanyaanType[]>({
     url: `/pertanyaanSiswa/${kel}/${id}.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
@@ -78,6 +88,15 @@ export const getPertanyaan = async (kel: string): Promise<PertanyaanTypeResponse
   return data
 }
 
+export const deletePertanyaan = async (kel: string, id: string): Promise<PertanyaanTypeResponse[]> => {
+  const { data } = await BaseApi().request<PertanyaanTypeResponse[]>({
+    url: `/pertanyaanSiswa/${kel}/${id}.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
+    method: 'DELETE',
+  })
+
+  return data
+}
+
 export const updateFinishModul = async (uid: string, id: string, status: string): Promise<DetailMateriTypeResponse> => {
   const { data } = await BaseApi().request<DetailMateriTypeResponse>({
     url: `materi/${uid}/${id}.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
@@ -92,6 +111,14 @@ export const updateSoal = async (uid: string, id: string, latihan: HasilSoalType
     url: `materi/${uid}/${id}.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
     method: 'PATCH',
     data: { latihan }
+  })
+  return data
+}
+
+export const isEvaluasi = async (): Promise<IsEvaluasiTypeResponse> => {
+  const { data } = await BaseApi().request<IsEvaluasiTypeResponse>({
+    url: `evaluasi.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
+    method: 'GET',
   })
   return data
 }

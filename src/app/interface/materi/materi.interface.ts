@@ -1933,6 +1933,15 @@ export interface PertanyaanType {
   pertanyaan: string
 }
 
+export interface PertanyaanResponse {
+  id: string,
+  pertanyaan: PertanyaanType
+}
+
 export interface PertanyaanTypeResponse {
   pertanyaan: PertanyaanType
+}
+
+export interface IsEvaluasiTypeResponse {
+  isEvaluasi: boolean
 }

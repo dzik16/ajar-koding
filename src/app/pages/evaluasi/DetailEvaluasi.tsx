@@ -13,7 +13,7 @@ const DetailEvaluasi = () => {
         style={{ right: '30px', maxHeight: '20%', height: '15%' }}>
         {/* begin::Header */}
         <div className='d-flex border-0 mb-5 mt-5' style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <span className='fw-bolder text-dark' style={{ fontSize: '4rem', textAlign: 'center' }}>9/10</span>
+          <span className='fw-bolder text-dark' style={{ fontSize: '4rem', textAlign: 'center' }}>1/20</span>
         </div>
         {/* end::Header */}
       </div>

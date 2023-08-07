@@ -1,48 +1,61 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
+import React, { useState } from 'react'
+import { DataMateri, materiNestedIf } from '../../../interface/materi/materi.interface'
 
 type Props = {
   className: string
 }
 
 const Soal: React.FC<Props> = ({ className }) => {
+  const [materi, setMateri] = useState<DataMateri[]>(materiNestedIf)
+
   return (
     <div className={`pe-10 ${className}`}>
       <div className='mb-10'>
-        <span style={{ fontSize: '18px', textAlign: 'justify' }}>
-          Halo Harry Maguire, Selamat datang di ajarlogika! Disini kamu akan belajar tentang konsep algoritma dan pemrograman dengan pembelajaran berbasis Reciprocal Teaching.
-        </span>
+        <div dangerouslySetInnerHTML={{ __html: materi[0].materi.isiMateri[5].soal ? materi[0].materi.isiMateri[5].soal! : "" }} />
       </div>
-      <div className="form-check mb-5">
-        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-        <span style={{ fontSize: '15px', textAlign: 'justify' }}>
-          Halo Harry Maguire, Selamat datang di ajarlogika! Disini kamu akan belajar tentang konsep algoritma dan pemrograman dengan pembelajaran berbasis Reciprocal Teaching. Lorem ipsum dolor sit amet consectetur.
-        </span>
-      </div>
-      <div className="form-check mb-5">
-        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-        <span style={{ fontSize: '15px', textAlign: 'justify' }}>
-          Halo Harry Maguire, Selamat datang di ajarlogika! Disini kamu akan belajar tentang konsep algoritma dan pemrograman dengan pembelajaran berbasis Reciprocal Teaching. Lorem ipsum dolor sit amet consectetur.
-        </span>
-      </div>
-      <div className="form-check mb-5">
-        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-        <span style={{ fontSize: '15px', textAlign: 'justify' }}>
-          Halo Harry Maguire, Selamat datang di ajarlogika! Disini kamu akan belajar tentang konsep algoritma dan pemrograman dengan pembelajaran berbasis Reciprocal Teaching. Lorem ipsum dolor sit amet consectetur.
-        </span>
-      </div>
-      <div className="form-check mb-5">
-        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-        <span style={{ fontSize: '15px', textAlign: 'justify' }}>
-          Halo Harry Maguire, Selamat datang di ajarlogika! Disini kamu akan belajar tentang konsep algoritma dan pemrograman dengan pembelajaran berbasis Reciprocal Teaching. Lorem ipsum dolor sit amet consectetur.
-        </span>
-      </div>
-      <div className="form-check">
-        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
-        <span style={{ fontSize: '15px', textAlign: 'justify' }}>
-          Halo Harry Maguire, Selamat datang di ajarlogika! Disini kamu akan belajar tentang konsep algoritma dan pemrograman dengan pembelajaran berbasis Reciprocal Teaching.
-        </span>
-      </div>
+      {
+        <>
+          {
+            materi[0].materi.isiMateri[5].pilihanSoal?.map((_soal, i) => {
+              return (
+                <>
+                  <div key={i} className="form-check mb-5">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id={`flexRadioDefault${i}`}
+                      value={_soal}
+                    // checked={cekStatus(_soal)}
+                    // disabled={finalHasilSoal && finalHasilSoal.length !== null ? true : false}
+                    // onChange={(e) => handleRadioChange(i, e.target.value)}
+                    />
+                    <span style={{ fontSize: '20px', textAlign: 'end' }}>
+                      {_soal}
+                    </span>
+                  </div>
+                </>
+              )
+            })
+          }
+          <div className="form-check mb-5">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id={`flexRadioDefault5`}
+            // value={Error}
+            // checked={cekStatus(_soal)}
+            // disabled={finalHasilSoal && finalHasilSoal.length !== null ? true : false}
+            // onChange={(e) => handleRadioChange(i, e.target.value)}
+            />
+            <span style={{ fontSize: '20px', textAlign: 'end' }}>
+              Error
+            </span>
+          </div>
+        </>
+      }
     </div>
   )
 }

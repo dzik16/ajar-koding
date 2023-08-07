@@ -74,7 +74,7 @@ const Forum = () => {
                   profileSiswa?.type.toLowerCase() === "siswa" ?
                     <div className="card col-sm-4 p-0 ms-10 rounded shadow-sm"
                       onClick={() => {
-                        navigate('/group', { state: { page: "kel1" } })
+                        navigate('/group', { state: { page: profileSiswa.kelompok } })
                         window.location.reload();
                       }}
                       style={{ width: '25%', height: '180px', cursor: 'pointer' }}>
@@ -104,7 +104,7 @@ const Forum = () => {
                   <div className="d-flex row" style={{ justifyContent: 'center' }}>
                     <div className="card col-sm-4 p-0 rounded shadow-sm"
                       onClick={() => {
-                        navigate('/group', { state: { page: "kel1" } })
+                        navigate('/group', { state: { page: "1" } })
                         window.location.reload();
                       }}
                       style={{ width: '25%', height: '180px', cursor: 'pointer' }}>
@@ -119,7 +119,7 @@ const Forum = () => {
                     </div>
                     <div className="card col-sm-4 p-0 rounded shadow-sm ms-10 me-10"
                       onClick={() => {
-                        navigate('/group', { state: { page: "kel2" } })
+                        navigate('/group', { state: { page: "2" } })
                         window.location.reload();
                       }}
                       style={{ width: '25%', height: '180px', cursor: 'pointer' }}>
@@ -134,7 +134,7 @@ const Forum = () => {
                     </div>
                     <div className="card col-sm-4 p-0 border rounded shadow-sm"
                       onClick={() => {
-                        navigate('/group', { state: { page: "kel3" } })
+                        navigate('/group', { state: { page: "3" } })
                         window.location.reload();
                       }}
                       style={{ width: '25%', height: '180px', cursor: 'pointer' }}>
@@ -151,7 +151,7 @@ const Forum = () => {
                   <div className="d-flex row mt-10" style={{ justifyContent: 'center' }}>
                     <div className="card col-sm-4 p-0 rounded shadow-sm"
                       onClick={() => {
-                        navigate('/group', { state: { page: "kel4" } })
+                        navigate('/group', { state: { page: "4" } })
                         window.location.reload();
                       }}
                       style={{ width: '25%', height: '180px', cursor: 'pointer' }}>
@@ -167,7 +167,7 @@ const Forum = () => {
 
                     <div className="card col-sm-4 p-0 rounded shadow-sm ms-10 me-10"
                       onClick={() => {
-                        navigate('/group', { state: { page: "kel5" } })
+                        navigate('/group', { state: { page: "5" } })
                         window.location.reload();
                       }}
                       style={{ width: '25%', height: '180px', cursor: 'pointer' }}>
@@ -183,7 +183,7 @@ const Forum = () => {
 
                     <div className="card col-sm-4 p-0 rounded shadow-sm"
                       onClick={() => {
-                        navigate('/group', { state: { page: "kel6" } })
+                        navigate('/group', { state: { page: "6" } })
                         window.location.reload();
                       }}
                       style={{ width: '25%', height: '180px', cursor: 'pointer' }}>

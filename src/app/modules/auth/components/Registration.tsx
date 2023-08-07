@@ -64,7 +64,7 @@ export function Registration() {
             nomor_absen: values.absen,
             email: values.email,
             imageProfile: image,
-            kelompok: "kel1",
+            kelompok: "2",
             type: "siswa"
           }
           const postProfileSiswa = await createProfileSiswa(ress.user.uid, bodyProfile)
@@ -72,7 +72,8 @@ export function Registration() {
             fullname: values.fullname,
             email: values.email,
             nomorAbsen: values.absen,
-            poin: 0
+            poin: 0,
+            image_profile: image
           }
           const postPeringkatSiswa = await createPeringkatByUID(ress.user.uid, bodyPringkat)
           const body: AuthModel = {

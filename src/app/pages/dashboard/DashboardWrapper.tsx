@@ -11,6 +11,7 @@ import { ProfileSiswaTypeResponse } from '../../interface/profile.siswa.interfac
 import { onAuthStateChanged, getAuth } from 'firebase/auth'
 import Lottie from 'lottie-react'
 import animLoading from '../../../_molekul/assets/loading/animLoading.json'
+import { isEvaluasi } from '../../api/Request/materi.siswa.api'
 
 const DashboardPage = () => {
   const navigate = useNavigate()
