@@ -143,7 +143,7 @@ const Evaluasi = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="card col-sm-4 p-0 rounded shadow-sm ms-10 me-10"
+                    {/* <div className="card col-sm-4 p-0 rounded shadow-sm ms-10 me-10"
                       onClick={() => handleNavigate('/evaluasi/lkpd', 'r.0e7760b9b82d6338a9bf3c774f56384f', '2')}
                       style={{ width: '30%', height: '200px', cursor: 'pointer' }}>
                       <div className="card-body p-0">
@@ -154,10 +154,9 @@ const Evaluasi = () => {
                         </div>
                         <div className='p-5'>
                           <h3>Evaluasi Pertemuan 2</h3>
-                          {/* <span className='badge badge-light-success'>Selesai</span> */}
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
 
