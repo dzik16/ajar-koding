@@ -94,7 +94,7 @@ const IsiMateri: React.FC<Props> = ({
       }
     }
 
-    if (page.currentPage === 1 && materiParent === "m-k-a") {
+    if (detailMateri?.step === 1 && materiParent === "m-k-a") {
       const swalSuccess = Swal.mixin({
         customClass: {
           confirmButton: 'btn btn-success',
@@ -232,6 +232,16 @@ const IsiMateri: React.FC<Props> = ({
                   detailMateri && detailMateri.status.toLowerCase() !== "selesai"
                     ?
                     <div>
+                      {/* <div className='mb-20 pt-20'>
+                        <h1 className='mb-5' style={{ fontSize: '30px' }}>Sumber Materi</h1>
+                        <span style={{ fontSize: '20px' }}>
+                          Sukamto, R. A. (2018). Buku Logika Algoritma dan Pemrograman Dasar. Modula.
+                          <br />
+                          Channel Youtube Rosa Ariani Sukamto : <a href='https://www.youtube.com/@RosaArianiSukamto' target='_blank'>https://www.youtube.com/@RosaArianiSukamto</a>
+                          <br />
+                          Jangan lupa di subscribe guys 🤗
+                        </span>
+                      </div> */}
                       <h1 className='mb-5 mt-20' style={{ fontSize: '30px' }}>Form Pertanyaan</h1>
                       <span style={{ fontSize: '20px' }}>
                         Jika kalian merasa kesulitan dalam memahami materi yang kalian pelajari silahkan masukan pertanyaan di bawah ini yaa, terkait pertanyaan kalian nantinya akan di bahas di forum kelompok kalian

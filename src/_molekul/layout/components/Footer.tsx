@@ -9,7 +9,7 @@ const Footer: FC = () => {
   const [isLocation, setIsLocation] = useState<boolean>(false)
 
   useEffect(() => {
-    if (location.pathname === '/materi/details' || `${location.pathname === '/evaluasi/soal'}` && 'active') {
+    if ((location.pathname === '/materi/details' && 'active') || (location.pathname === '/evaluasi/soal' && 'active')) {
       setIsLocation(true)
     } else {
       setIsLocation(false)
