@@ -10,6 +10,7 @@ import animLoading from '../../../_molekul/assets/loading/animLoading.json'
 import { useIsMateri } from './context/isMateriProvider'
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
+import Swal from 'sweetalert2'
 
 const MateriPage = () => {
   const navigate = useNavigate()
@@ -78,6 +79,8 @@ const MateriPage = () => {
     const currentDate = new Date();
     const formattedDate = format(currentDate, 'dd MMMM yyyy', { locale: id });
 
+
+
     if (uuid) {
       if (i && i > 1) {
         if (detailMateri[i - 2] && detailMateri[i - 2].status !== "On Progress") {
@@ -111,7 +114,17 @@ const MateriPage = () => {
             }
           }
         } else {
-          console.log("Mohon Maaf anda harus menyelesaikan terlebih dahulu modul sebelumnya");
+          const swalSuccess = Swal.mixin({
+            customClass: {
+              confirmButton: 'btn btn-danger',
+            },
+            buttonsStyling: false
+          })
+          swalSuccess.fire({
+            title: `Mohon Maaf anda harus menyelesaikan terlebih dahulu modul sebelumnya`,
+            icon: 'error',
+            confirmButtonText: 'Dismiss',
+          })
         }
       } else if (i && i === 1) {
         if (detailMateri[i - 1]) {

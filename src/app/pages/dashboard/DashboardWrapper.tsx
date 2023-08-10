@@ -12,12 +12,14 @@ import { onAuthStateChanged, getAuth } from 'firebase/auth'
 import Lottie from 'lottie-react'
 import animLoading from '../../../_molekul/assets/loading/animLoading.json'
 import { isEvaluasi } from '../../api/Request/materi.siswa.api'
+import { getDetailPeringkatSiswaByUID } from '../../api/Request/peringkat.siswa.api'
 
 const DashboardPage = () => {
   const navigate = useNavigate()
   const [profileSiswa, setProfileSiswa] = useState<ProfileSiswaTypeResponse>()
   const auth = getAuth()
   const [loading, setLoading] = useState<boolean>(false)
+  const [poin, setPoin] = useState<number>(0)
 
   useEffect(() => {
     // Cek apakah halaman sudah pernah di-reload sebelumnya dari local storage
@@ -33,6 +35,7 @@ const DashboardPage = () => {
   useEffect(() => {
     onAuthStateChanged(auth, e => {
       handleGetProfile(e?.uid)
+      handleGetPoin(e?.uid)
     })
   }, [])
 
@@ -53,6 +56,16 @@ const DashboardPage = () => {
       setLoading(false)
     }
   }
+
+
+  const handleGetPoin = async (uid: string | undefined) => {
+    if (uid) {
+      const getIdPoin = await getDetailPeringkatSiswaByUID(uid)
+      const la = Object.entries(getIdPoin)
+      setPoin(la[0][1].poin)
+    }
+  }
+
 
   return (
     <>
@@ -93,8 +106,8 @@ const DashboardPage = () => {
                         svgIcon='award'
                         color='body-white'
                         iconColor='primary'
-                        title='Peringkat'
-                        description='Kamu Peringkat ke 1 dari 1 orang'
+                        title='Poin kamu'
+                        description={(poin / 10).toString()}
                         titleColor='gray-900'
                         descriptionColor='gray-400'
                       />
