@@ -12,14 +12,16 @@ import { onAuthStateChanged, getAuth } from 'firebase/auth'
 import Lottie from 'lottie-react'
 import animLoading from '../../../_molekul/assets/loading/animLoading.json'
 import { isEvaluasi } from '../../api/Request/materi.siswa.api'
-import { getDetailPeringkatSiswaByUID } from '../../api/Request/peringkat.siswa.api'
+import { getAllPeringkatSiswa, getDetailPeringkatSiswaByUID } from '../../api/Request/peringkat.siswa.api'
+import { CreatePeringkatType } from '../../interface/peringkat.interface'
 
 const DashboardPage = () => {
   const navigate = useNavigate()
   const [profileSiswa, setProfileSiswa] = useState<ProfileSiswaTypeResponse>()
   const auth = getAuth()
   const [loading, setLoading] = useState<boolean>(false)
-  const [poin, setPoin] = useState<number>(0)
+  const [listPeringkat, setListPeringkat] = useState<CreatePeringkatType[]>([])
+  const [peringkat, setPeringkat] = useState<string>("")
 
   useEffect(() => {
     // Cek apakah halaman sudah pernah di-reload sebelumnya dari local storage
@@ -35,7 +37,6 @@ const DashboardPage = () => {
   useEffect(() => {
     onAuthStateChanged(auth, e => {
       handleGetProfile(e?.uid)
-      handleGetPoin(e?.uid)
     })
   }, [])
 
@@ -43,12 +44,33 @@ const DashboardPage = () => {
     setLoading(true)
     try {
       if (uid) {
+        let resEmail = ""
         const ress = await getProfileSiswa(uid)
         const output = Object.entries(ress)
         output.map(e => {
           //@ts-ignore
           setProfileSiswa(e[1])
+          resEmail = e[1].email
         });
+        if (resEmail) {
+          const res = await getAllPeringkatSiswa();
+          const la = Object.entries(res);
+
+          const sortedData = la
+            .map((e, i) => {
+              const ha = Object.entries(e[1]);
+              const body: CreatePeringkatType = {
+                fullname: ha[0][1].fullname,
+                email: ha[0][1].email,
+                nomorAbsen: ha[0][1].nomorAbsen,
+                poin: ha[0][1].poin,
+                image_profile: ha[0][1].image_profile,
+              };
+              return body;
+            })
+            .sort((a, b) => b.poin - a.poin) // Mengurutkan secara descending berdasarkan nilai poin
+          setListMateri(sortedData, resEmail)
+        }
       }
       setLoading(false)
     } catch (error) {
@@ -57,15 +79,21 @@ const DashboardPage = () => {
     }
   }
 
+  const setListMateri = (list: CreatePeringkatType[], resEmail: string) => {
+    list.forEach((item) => {
+      const found = listPeringkat.find((obj) => obj.fullname === item.fullname);
+      if (!found) {
+        listPeringkat.push(item);
+      }
+    });
 
-  const handleGetPoin = async (uid: string | undefined) => {
-    if (uid) {
-      const getIdPoin = await getDetailPeringkatSiswaByUID(uid)
-      const la = Object.entries(getIdPoin)
-      setPoin(la[0][1].poin)
+    for (let i = 0; i < listPeringkat.length; i++) {
+      if (listPeringkat[i].email === resEmail) {
+        setPeringkat((i + 1).toString())
+        break
+      }
     }
-  }
-
+  };
 
   return (
     <>
@@ -95,12 +123,12 @@ const DashboardPage = () => {
                         color='body-white'
                         iconColor='primary'
                         title={`${profileSiswa?.type.toLowerCase() === "siswa" ? 'Absensi' : 'Absensi Siswa'}`}
-                        description={`${profileSiswa?.type.toLowerCase() === "siswa" ? 'Hadir : 1, Alfa : 0, Izin : 0' : ""}`}
+                        description={`${profileSiswa?.type.toLowerCase() === "siswa" ? 'Hadir : 2, Alfa : 0, Izin : 0' : ""}`}
                         titleColor='gray-900'
                         descriptionColor='gray-400'
                       />
                     </div>
-                    <div className='col-xl-3'>
+                    {/* <div className='col-xl-3'>
                       <StatisticsWidget5
                         className='card-xl-stretch mb-xl-8 shadow-sm'
                         svgIcon='award'
@@ -108,6 +136,18 @@ const DashboardPage = () => {
                         iconColor='primary'
                         title='Poin kamu'
                         description={(poin / 10).toString()}
+                        titleColor='gray-900'
+                        descriptionColor='gray-400'
+                      />
+                    </div> */}
+                    <div className='col-xl-3'>
+                      <StatisticsWidget5
+                        className='card-xl-stretch mb-xl-8 shadow-sm'
+                        svgIcon='award'
+                        color='body-white'
+                        iconColor='primary'
+                        title='Peringkat'
+                        description={`Peringkat ke ${peringkat ? peringkat : ""} dari 35`}
                         titleColor='gray-900'
                         descriptionColor='gray-400'
                       />
@@ -149,14 +189,14 @@ const DashboardPage = () => {
 
 
                   {/* begin::Row */}
-                  {/* <div className='row g-5 g-xl-8'>
+                  <div className='row g-5 g-xl-8'>
                     <div className='col-xl-7'>
                       <TablesWidget10 className='card-xxl-stretch mb-5 mb-xl-8 shadow-sm' title={'Papan Peringkat 5 Teratas'} />
                     </div>
                     <div className='col-xl-5'>
                       <ListsWidget1 className='card-xl-stretch mb-xl-8 shadow-sm' />
                     </div>
-                  </div> */}
+                  </div>
                   {/* end::Row */}
                 </>
                 :

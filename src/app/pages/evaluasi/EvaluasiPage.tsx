@@ -143,7 +143,7 @@ const Evaluasi = () => {
                         </div>
                       </div>
                     </div>
-                    {/* <div className="card col-sm-4 p-0 rounded shadow-sm ms-10 me-10"
+                    <div className="card col-sm-4 p-0 rounded shadow-sm ms-10 me-10"
                       onClick={() => handleNavigate('/evaluasi/lkpd', 'r.0e7760b9b82d6338a9bf3c774f56384f', '2')}
                       style={{ width: '30%', height: '200px', cursor: 'pointer' }}>
                       <div className="card-body p-0">
@@ -156,11 +156,11 @@ const Evaluasi = () => {
                           <h3>Evaluasi Pertemuan 2</h3>
                         </div>
                       </div>
-                    </div> */}
+                    </div>
                   </div>
 
 
-                  {/* <div className='mt-20'>
+                  <div className='mt-20'>
                     <h1 className='mb-10 ms-20' style={{ fontSize: '30px' }}>Evaluasi Soal</h1>
                     <div className="d-flex row mt-10" style={{ justifyContent: 'center' }}>
                       <div className="card col-sm-4 p-0 rounded shadow-sm me-5" onClick={() => navigate('/evaluasi/soal')} style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
@@ -234,7 +234,7 @@ const Evaluasi = () => {
                         </div>
                       </div>
                     </div>
-                  </div> */}
+                  </div>
                 </>
                 :
                 <>

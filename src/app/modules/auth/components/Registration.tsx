@@ -64,7 +64,7 @@ export function Registration() {
             nomor_absen: values.absen,
             email: values.email,
             imageProfile: image,
-            kelompok: "2",
+            kelompok: "1",
             type: "siswa"
           }
           const postProfileSiswa = await createProfileSiswa(ress.user.uid, bodyProfile)

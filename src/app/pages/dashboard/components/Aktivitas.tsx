@@ -95,7 +95,7 @@ const Aktivitas: React.FC<Props> = ({ className }) => {
                   {
                     detailMateri && detailMateri.map((e, i) => {
                       return (
-                        <tr>
+                        <tr key={i}>
                           <td>
                             <span className='fw-bold'>
                               {e.name}
@@ -105,7 +105,7 @@ const Aktivitas: React.FC<Props> = ({ className }) => {
                           <td className='p-0'>
                             <span className='text-muted fw-semibold d-block'>{e.tanggalMulai}</span>
                           </td>
-                          
+
                           <td className='text-start text-muted fw-semibold p-0'>
                             <span className={`badge ${e.status.toLowerCase() === "selesai" ? "badge-light-success" : "badge-light-warning"}`}>{e.status}</span>
                           </td>
