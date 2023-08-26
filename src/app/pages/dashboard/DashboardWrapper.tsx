@@ -65,6 +65,8 @@ const DashboardPage = () => {
                 nomorAbsen: ha[0][1].nomorAbsen,
                 poin: ha[0][1].poin,
                 image_profile: ha[0][1].image_profile,
+                type: ha[0][1].type,
+                progressMateri: ha[0][1].progressMateri
               };
               return body;
             })

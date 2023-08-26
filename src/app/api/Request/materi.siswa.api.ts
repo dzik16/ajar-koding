@@ -10,6 +10,15 @@ export const getMateriSiswaByUID = async (uid: string): Promise<DetailMateriType
   return data
 }
 
+export const getListAllMateri = async (): Promise<DetailMateriTypeResponse[][]> => {
+  const { data } = await BaseApi().request<DetailMateriTypeResponse[][]>({
+    url: `materi.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
+    method: 'GET',
+  })
+
+  return data
+}
+
 export const createDetailMateriByUID = async (uid: string, props: DetailMateriTypeResponse): Promise<CreateMateriTypeResponse> => {
   const { data } = await BaseApi().request<CreateMateriTypeResponse>({
     url: `materi/${uid}.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,

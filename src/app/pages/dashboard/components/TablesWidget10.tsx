@@ -6,6 +6,7 @@ import { getAllPeringkatSiswa } from '../../../api/Request/peringkat.siswa.api'
 import { CreatePeringkatType } from '../../../interface/peringkat.interface'
 import { getProfileSiswa } from '../../../api/Request/profile.siswa.api'
 import { CreateProfileSiswaType } from '../../../interface/profile.siswa.interface'
+import { getListAllMateri, getMateriSiswaByUID } from '../../../api/Request/materi.siswa.api'
 
 type Props = {
   className: string,
@@ -25,14 +26,17 @@ const TablesWidget10: React.FC<Props> = ({ className, title }) => {
     })
   }, [uuid])
 
+
+
   const handleGetProfile = async (uid: string | undefined) => {
     if (uid) {
       const getIdPoin = await getProfileSiswa(uid)
       const la = Object.entries(getIdPoin)
       setProfile(la[0][1])
 
-      console.log(la[0][1].type.toLowerCase() === "siswa");
-
+      // const resProgresMateri = await getListAllMateri()
+      // const ha = Object.entries(resProgresMateri)
+      // console.log(resProgresMateri);
 
       if (la[0][1].type.toLowerCase() === "siswa") {
         const res = await getAllPeringkatSiswa();
@@ -46,6 +50,8 @@ const TablesWidget10: React.FC<Props> = ({ className, title }) => {
               nomorAbsen: ha[0][1].nomorAbsen,
               poin: ha[0][1].poin,
               image_profile: ha[0][1].image_profile,
+              type: ha[0][1].type,
+              progressMateri: ha[0][1].progressMateri
             };
             return body;
           })
@@ -58,13 +64,17 @@ const TablesWidget10: React.FC<Props> = ({ className, title }) => {
         const ha = Object.entries(res);
         const sortedData = ha
           .map((e, i) => {
-            const ha = Object.entries(e[1]);
+            const ga = Object.entries(e[1]);
+            // console.log(ha[i][0]);
             const body: CreatePeringkatType = {
-              fullname: ha[0][1].fullname,
-              email: ha[0][1].email,
-              nomorAbsen: ha[0][1].nomorAbsen,
-              poin: ha[0][1].poin,
-              image_profile: ha[0][1].image_profile,
+              fullname: ga[0][1].fullname,
+              email: ga[0][1].email,
+              nomorAbsen: ga[0][1].nomorAbsen,
+              poin: ga[0][1].poin,
+              image_profile: ga[0][1].image_profile,
+              type: ga[0][1].type,
+              progressMateri: ga[0][1].progressMateri
+
             };
             return body;
           })
@@ -85,7 +95,7 @@ const TablesWidget10: React.FC<Props> = ({ className, title }) => {
       </div>
       {/* end::Header */}
       {/* begin::Body */}
-      <div className='card-body py-3' style={{ maxHeight: "330px", overflowY: "auto" }}>
+      <div className='card-body py-3'>
         {/* begin::Table container */}
         <div className='table-responsive'>
           {/* begin::Table */}
@@ -105,42 +115,49 @@ const TablesWidget10: React.FC<Props> = ({ className, title }) => {
               {
                 listPeringkat && listPeringkat.map((e, i) => {
                   return (
-                    <tr key={i}>
-                      <td>
-                        <div className='d-flex align-items-center'>
-                          <div className='symbol symbol-45px me-5'>
-                            <img src={e.image_profile} alt='' />
-                          </div>
-                          <div className='d-flex justify-content-start flex-column'>
-                            <span className='text-dark fw-bold fs-4'>
-                              {e.fullname} <span className='text-primary fw-bold fs-4'>{profile?.email === e.email && profile.type.toLowerCase() === "siswa" ? "(kamu)" : ""}</span>
-                            </span>
-                            <span className='text-muted fw-semibold text-muted d-block fs-5'>
-                              {e.email}
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <span className='text-dark fw-bold d-block fs-4'>
-                          {e.nomorAbsen}
-                        </span>
-                      </td>
-                      <td className='text-end'>
-                        <div className='d-flex flex-column w-100 me-2'>
-                          <div className='d-flex flex-stack mb-2'>
-                            <span className='text-muted me-2 fs-4 fw-semibold'>{e.poin / 10}</span>
-                          </div>
-                          <div className='progress h-6px w-100'>
-                            <div
-                              className='progress-bar bg-danger'
-                              role='progressbar'
-                              style={{ width: '100%' }}
-                            ></div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
+                    <>
+                      {
+                        e.type === "guru" ?
+                          <></>
+                          :
+                          <tr key={i}>
+                            <td>
+                              <div className='d-flex align-items-center'>
+                                <div className='symbol symbol-45px me-5'>
+                                  <img src={e.image_profile} alt='' />
+                                </div>
+                                <div className='d-flex justify-content-start flex-column'>
+                                  <span className='text-dark fw-bold fs-4'>
+                                    {e.fullname} <span className='text-primary fw-bold fs-4'>{profile?.email === e.email && profile.type.toLowerCase() === "siswa" ? "(kamu)" : ""}</span>
+                                  </span>
+                                  <span className='text-muted fw-semibold text-muted d-block fs-5'>
+                                    {e.email}
+                                  </span>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <span className='text-dark fw-bold d-block fs-4'>
+                                {e.nomorAbsen}
+                              </span>
+                            </td>
+                            <td className='text-end'>
+                              <div className='d-flex flex-column w-100 me-2'>
+                                <div className='d-flex flex-stack mb-2'>
+                                  <span className='text-muted me-2 fs-4 fw-semibold'>{e.poin / 10}</span>
+                                </div>
+                                <div className='progress h-6px w-100'>
+                                  <div
+                                    className='progress-bar bg-danger'
+                                    role='progressbar'
+                                    style={{ width: '100%' }}
+                                  ></div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                      }
+                    </>
                   )
                 })
               }

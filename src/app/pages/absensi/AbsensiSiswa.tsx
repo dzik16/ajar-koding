@@ -94,43 +94,50 @@ const AbsensiSiswa: React.FC<Props> = ({ className, title }) => {
 								{
 									listPeringkat && listPeringkat.map((e, i) => {
 										return (
-											<tr>
-												<td>
-													<div className='d-flex align-items-center'>
-														<div className='symbol symbol-45px me-5'>
-															<img src={e.imageProfile} alt='profile' />
-														</div>
-														<div className='d-flex justify-content-start flex-column'>
-															<a href='#' className='text-dark fw-bold text-hover-primary fs-4'>
-																{e.name}
-															</a>
-															<span className='text-muted fw-semibold text-muted d-block fs-5'>
-																{e.email}
-															</span>
-														</div>
-													</div>
-												</td>
-												<td>
-													<span className='text-dark fw-bold text-hover-primary d-block fs-4'>
-														{e.nomor_absen}
-													</span>
-												</td>
-												<td>
-													<span className='text-dark fw-bold text-hover-primary d-block fs-4'>
-														<input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"></input>
-													</span>
-												</td>
-												<td>
-													<span className='text-dark fw-bold text-hover-primary d-block fs-4'>
-														<input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"></input>
-													</span>
-												</td>
-												<td>
-													<span className='text-dark fw-bold text-hover-primary d-block fs-4'>
-														<input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"></input>
-													</span>
-												</td>
-											</tr>
+											<>
+												{
+													e.type.toLowerCase() === "siswa" ?
+														<tr>
+															<td>
+																<div className='d-flex align-items-center'>
+																	<div className='symbol symbol-45px me-5'>
+																		<img src={e.imageProfile} alt='profile' />
+																	</div>
+																	<div className='d-flex justify-content-start flex-column'>
+																		<a href='#' className='text-dark fw-bold text-hover-primary fs-4'>
+																			{e.name}
+																		</a>
+																		<span className='text-muted fw-semibold text-muted d-block fs-5'>
+																			{e.email}
+																		</span>
+																	</div>
+																</div>
+															</td>
+															<td>
+																<span className='text-dark fw-bold text-hover-primary d-block fs-4'>
+																	{e.nomor_absen}
+																</span>
+															</td>
+															<td>
+																<span className='text-dark fw-bold text-hover-primary d-block fs-4'>
+																	<input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"></input>
+																</span>
+															</td>
+															<td>
+																<span className='text-dark fw-bold text-hover-primary d-block fs-4'>
+																	<input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"></input>
+																</span>
+															</td>
+															<td>
+																<span className='text-dark fw-bold text-hover-primary d-block fs-4'>
+																	<input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"></input>
+																</span>
+															</td>
+														</tr>
+														:
+														<></>
+												}
+											</>
 										)
 									})
 								}

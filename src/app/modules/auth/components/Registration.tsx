@@ -73,7 +73,9 @@ export function Registration() {
             email: values.email,
             nomorAbsen: values.absen,
             poin: 0,
-            image_profile: image
+            image_profile: image,
+            type: "siswa",
+            progressMateri: 0
           }
           const postPeringkatSiswa = await createPeringkatByUID(ress.user.uid, bodyPringkat)
           const body: AuthModel = {

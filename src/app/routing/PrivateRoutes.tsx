@@ -19,6 +19,7 @@ import Lkpd from '../pages/evaluasi/Lkpd'
 import EvaluasiFile from '../pages/evaluasi/EvaluasiFile'
 import { AbsensiSiswa } from '../pages/absensi/AbsensiSiswa'
 import EvaluasiFileSiswa from '../pages/evaluasi/EvaluasiFileSiswa'
+import HasilSiswa from '../pages/evaluasi/listHasilSiswa/hasilSiswa'
 
 const PrivateRoutes = () => {
   const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
@@ -38,6 +39,8 @@ const PrivateRoutes = () => {
         <Route path='/forum' element={<ForumPage />} />
         <Route path='/group' element={<ChatGroup />} />
         <Route path='/absensi/siswa' element={<AbsensiSiswa className={''} />} />
+        <Route path='/hasil/evaluasi' element={<HasilSiswa />} />
+
         <Route path='/materi' element={
           <IsMateriProvider>
             <MateriPage />
