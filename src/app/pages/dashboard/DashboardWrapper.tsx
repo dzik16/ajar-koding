@@ -193,7 +193,7 @@ const DashboardPage = () => {
                   {/* begin::Row */}
                   <div className='row g-5 g-xl-8'>
                     <div className='col-xl-7'>
-                      <TablesWidget10 className='card-xxl-stretch mb-5 mb-xl-8 shadow-sm' title={'Papan Peringkat 5 Teratas'} />
+                      <TablesWidget10 className='card-xxl-stretch mb-5 mb-xl-8 shadow-sm' title={'Papan Peringkat 6 Teratas'} />
                     </div>
                     <div className='col-xl-5'>
                       <ListsWidget1 className='card-xl-stretch mb-xl-8 shadow-sm' />

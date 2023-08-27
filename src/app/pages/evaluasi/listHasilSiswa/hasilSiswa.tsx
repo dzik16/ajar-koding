@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { CreateProfileSiswaType } from '../../../interface/profile.siswa.interface'
 import { getAllSiswa, getProfileSiswa } from '../../../api/Request/profile.siswa.api'
 import { toAbsoluteUrl } from '../../../../_molekul/helpers'
@@ -9,11 +9,17 @@ const HasilSiswa = () => {
   const navigate = useNavigate()
   const auth = getAuth()
   const [uuid, setUuid] = useState<string>()
+  // @ts-ignore
+  const location = useLocation<data>()
   const [profileSiswa, setProfileSiswa] = useState<CreateProfileSiswaType>()
   const [loading, setLoading] = useState<boolean>(false)
   const [listPeringkat, setListPeringkat] = useState<CreateProfileSiswaType[]>([])
+  const [ke, setKe] = useState<string>("")
+
 
   useEffect(() => {
+    //@ts-ignore
+    setKe(location.state.ke)
     onAuthStateChanged(auth, e => {
       setUuid(e?.uid)
       handleGetProfile(e?.uid)
@@ -110,7 +116,7 @@ const HasilSiswa = () => {
                       <tr>
                         <td key={i}>
                           <div className='d-flex align-items-center'
-                            // onClick={() => navigate('/evaluasi/file', { state: { noAbsen: e.nomor_absen.toString() } })}
+                            onClick={() => navigate('/evaluasi/file', { state: { noAbsen: e.nomor_absen.toString(), ke: ke } })}
                             style={{ cursor: 'pointer' }}
                           >
                             <div className='symbol symbol-45px me-5'>

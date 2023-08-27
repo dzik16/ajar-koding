@@ -15,6 +15,7 @@ const EvaluasiFile: FC = () => {
   const [noAbsen, setNoAbsen] = useState<string>("")
   const [absen, setAbsen] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
+  const [ke, setKe] = useState<string>("")
 
   useEffect(() => {
     //@ts-ignore
@@ -22,6 +23,8 @@ const EvaluasiFile: FC = () => {
       //@ts-ignore
       setNoAbsen(location.state.noAbsen)
     }
+    //@ts-ignore
+    setKe(location.state.ke)
     onAuthStateChanged(auth, e => {
       setUuid(e?.uid)
       handleGetProfile(e?.uid)
@@ -59,7 +62,7 @@ const EvaluasiFile: FC = () => {
           </div>
         ) : (
           <div className='d-flex flex-column flex-lg-row rounded pt-2 shadow-sm p-2' style={{ justifyContent: 'center', alignContent: 'center' }}>
-            <iframe width="100%" height="620" src={`https://villageharmony.fun:9001/p/${absen ? `${absen}` : `${noAbsen}`}`} title="Forum Diskusi" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; camera https://villageharmony.fun:9001; microphone https://villageharmony.fun:9001" allowFullScreen></iframe>
+            <iframe width="100%" height="620" src={`https://villageharmony.fun:9001/p/${absen ? `${ke}-${absen}` : `${ke}-${noAbsen}`}`} title="Forum Diskusi" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; camera https://villageharmony.fun:9001; microphone https://villageharmony.fun:9001" allowFullScreen></iframe>
           </div >
         )
       }

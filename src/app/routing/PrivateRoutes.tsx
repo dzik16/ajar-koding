@@ -35,7 +35,7 @@ const PrivateRoutes = () => {
         <Route path='/evaluasi/soal' element={<DetailEvaluasi />} />
         <Route path='/evaluasi/lkpd' element={<Lkpd />} />
         <Route path='/evaluasi/file' element={<EvaluasiFile />} />
-        <Route path='/evaluasi/siswa' element={<EvaluasiFileSiswa />} />
+        <Route path='/evaluasi/siswa/:id' element={<EvaluasiFileSiswa />} />
         <Route path='/forum' element={<ForumPage />} />
         <Route path='/group' element={<ChatGroup />} />
         <Route path='/absensi/siswa' element={<AbsensiSiswa className={''} />} />

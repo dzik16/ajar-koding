@@ -56,7 +56,7 @@ const TablesWidget10: React.FC<Props> = ({ className, title }) => {
             return body;
           })
           .sort((a, b) => b.poin - a.poin) // Mengurutkan secara descending berdasarkan nilai poin
-          .slice(0, 5); // Mengambil hanya 5 data dengan nilai poin tertinggi
+          .slice(0, 6); // Mengambil hanya 5 data dengan nilai poin tertinggi
 
         setListPeringkat(sortedData);
       } else {

@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import React, { FC, useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { getProfileSiswa } from '../../api/Request/profile.siswa.api'
 
 const Lkpd: FC = () => {
   const auth = getAuth()
+  const navigate = useNavigate()
   const [uuid, setUuid] = useState<string>()
   //@ts-ignore
   const location = useLocation<data>()
@@ -40,6 +41,12 @@ const Lkpd: FC = () => {
     }
   }
 
+  const handleNavigate = () => {
+    const queryString = new URLSearchParams(ke).toString();
+    const url = `/evaluasi/siswa/${ke}`
+    window.open(url, '_blank');
+  }
+
   return (
     <div className='d-flex flex-column flex-lg-row rounded pt-2' style={{ justifyContent: 'center', alignContent: 'center' }}>
       <div className="card col-xl-4 rounded shadow-sm mb-1 me-5"
@@ -50,7 +57,7 @@ const Lkpd: FC = () => {
           <div className=''>
             <ul>
               <li>
-                <span style={{ fontSize: '20px' }} className='text-dark'>Untuk menjawab soal evaluasi kalian bisa mengerjakan <a href="/evaluasi/siswa" target='_blank'>disini</a>.</span>
+                <span style={{ fontSize: '20px' }} className='text-dark'>Untuk menjawab soal evaluasi kalian bisa mengerjakan <span className='text-primary cursor-pointer' onClick={() => handleNavigate()} >disini</span>.</span>
               </li>
               <br />
               <li>
