@@ -32,7 +32,13 @@ const PrivateRoutes = () => {
         {/* Pages */}
         <Route path='dashboard' element={<DashboardWrapper />} />
         <Route path='/evaluasi' element={<Evaluasi />} />
-        <Route path='/evaluasi/soal' element={<DetailEvaluasi />} />
+
+        <Route path='/evaluasi/soal' element={
+          <PaginationProvider>
+            <DetailEvaluasi />
+          </PaginationProvider>
+        } />
+        
         <Route path='/evaluasi/lkpd' element={<Lkpd />} />
         <Route path='/evaluasi/file' element={<EvaluasiFile />} />
         <Route path='/evaluasi/siswa/:id' element={<EvaluasiFileSiswa />} />
