@@ -176,9 +176,7 @@ const MateriPage = () => {
         const sortedData = ha
           .map((e, i) => {
             const ha = Object.entries(e[1]);
-            console.log(ha);
-
-
+            
             const body: CreatePeringkatType = {
               fullname: ha[0][1].fullname,
               email: ha[0][1].email,

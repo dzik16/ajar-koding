@@ -7,6 +7,11 @@ import { useLocation } from 'react-router-dom'
 import { soalPosttest } from '../../interface/evaluasi/posttest.interface'
 import { soalLogic } from '../../interface/evaluasi/logical.interface'
 import { penilaianMedia } from '../../interface/evaluasi/media.interface'
+import { BodySendEvaluasi, HasilEvaluasiType, HasilSoalType } from '../../interface/materi/materi.interface'
+import { getEvaluasiByUUID } from '../../api/Request/evaluasi.siswa.api'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import Lottie from 'lottie-react'
+import animLoading from '../../../_molekul/assets/loading/animLoading.json'
 
 const DetailEvaluasi = () => {
   const [materi, setMateri] = useState<DataMateri[]>(soalPretest)
@@ -14,6 +19,23 @@ const DetailEvaluasi = () => {
   const [materiParent, setMateriParent] = useState<string>("")
   // @ts-ignore
   const location = useLocation<data>()
+  const [hasilSoal, setHasilSoal] = useState<HasilSoalType[]>([])
+  const [finalHasilSoal, setFinalHasilSoal] = useState<HasilSoalType[]>([])
+  const [uuid, setUuid] = useState<string | undefined>("")
+  const auth = getAuth()
+  const [loading, setLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    onAuthStateChanged(auth, e => {
+      if (e?.uid) {
+        setLoading(true)
+        setUuid(e.uid)
+        handleGetDetailMateri(e.uid)
+      }
+    })
+  }, [uuid])
+
+  console.log(hasilSoal);
 
   useEffect(() => {
     // @ts-ignore
@@ -33,42 +55,82 @@ const DetailEvaluasi = () => {
     }
   }, [materiParent, materi])
 
+  const handleGetDetailMateri = async (uid: string) => {
+    try {
+      if (uid) {
+        const res = await getEvaluasiByUUID(materiParent, uid)
+        const ha = Object.entries(res);
+        if (res) {
+          setFinalHasilSoal(ha[0][1].hasilSoal)
+          if (res) {
+            setLoading(false)
+          }
+        }
+      }
+    } catch (error) {
+      setLoading(false)
+    }
+  }
+
+
   return (
     <div className='row p-0'>
-      <div id="materi" className={`${materiParent === "preLogic" || materiParent === "postLogic" || materiParent === "penilaianMedia" ? "col-xl-12 card-header" : "col-xl-10 card-header"}`}>
-        {/* <h1>Tujuan Pembelajaran</h1> */}
-        <Soal className='card-xxl-stretch mb-xl-3' />
-      </div>
       {
-        materiParent === "preLogic" || materiParent === "postLogic" || materiParent === "penilaianMedia" ?
-          // <div id="progress" className='card shadow-sm col-xxl-2 position-fixed mb-xl-3 border border-secondary border-2 rounded'
-          //   style={{ right: '30px', maxHeight: '25%', height: '15%' }}>
-          //   {/* begin::Header */}
-          //   <div className='d-flex border-0 mb-5 mt-5' style={{ justifyContent: 'center', alignItems: 'center' }}>
-          //     <span className='fw-bolder text-dark'></span>
-          //   </div>
-          //   {/* end::Header */}
-          // </div>
-          <></>
-          :
-          <div id="progress" className='col-xxl-2 position-fixed mb-xl-3 border border-secondary border-2 rounded'
-            style={{ right: '30px', maxHeight: '20%', height: '15%' }}>
-            {/* begin::Header */}
-            <div className='d-flex border-0 mb-5 mt-5' style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <span className='fw-bolder text-dark' style={{ fontSize: '4rem', textAlign: 'center' }}>{page.currentPage}/{materi[0].materi.isiMateri.length}</span>
-            </div>
-            {/* end::Header */}
+        loading ? (
+          <div className='d-flex'
+            style={{ width: '100%', height: '100%', justifyContent: 'center', justifyItems: 'center' }}
+          >
+            <Lottie style={{ width: '55%', height: '55%' }} animationData={animLoading} />
           </div>
-      }
-      {
-        materiParent === "preLogic" || materiParent === "postLogic" || materiParent === "penilaianMedia" ?
-          <div className='d-flex pe-10 mt-10' style={{ justifyContent: 'end' }}>
-            <div className='btn btn-primary w-25'>
-              <span style={{ textAlign: 'center' }}>Kirim Jawaban</span>
+        ) :
+          <>
+            <div id="materi" className={`${materiParent === "preLogic" || materiParent === "postLogic" || materiParent === "penilaianMedia" ? "col-xl-10 card-header" : "col-xl-10 card-header"}`}>
+              {/* <h1>Tujuan Pembelajaran</h1> */}
+              <Soal
+                hasilSoal={hasilSoal}
+                setHasilSoal={setHasilSoal}
+                finalHasilSoal={finalHasilSoal}
+                setFinalHasilSoal={setFinalHasilSoal}
+                loading={loading}
+                className='card-xxl-stretch mb-xl-3' />
             </div>
-          </div>
-          :
-          <Footer />
+            {
+              // materiParent === "preLogic" || materiParent === "postLogic" || materiParent === "penilaianMedia" ?
+              //   // <div id="progress" className='card shadow-sm col-xxl-2 position-fixed mb-xl-3 border border-secondary border-2 rounded'
+              //   //   style={{ right: '30px', maxHeight: '25%', height: '15%' }}>
+              //   //   {/* begin::Header */}
+              //   //   <div className='d-flex border-0 mb-5 mt-5' style={{ justifyContent: 'center', alignItems: 'center' }}>
+              //   //     <span className='fw-bolder text-dark'></span>
+              //   //   </div>
+              //   //   {/* end::Header */}
+              //   // </div>
+              //   <></>
+              //   :
+              <div id="progress" className='col-xxl-2 position-fixed mb-xl-3 border border-secondary border-2 rounded'
+                style={{ right: '30px', maxHeight: '20%', height: '15%' }}>
+                {/* begin::Header */}
+                <div className='d-flex border-0 mb-5 mt-5' style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <span className='fw-bolder text-dark' style={{ fontSize: '4rem', textAlign: 'center' }}>{page.currentPage}/{materi[0].materi.isiMateri.length}</span>
+                </div>
+                {/* end::Header */}
+              </div>
+            }
+            {
+              // materiParent === "preLogic" || materiParent === "postLogic" || materiParent === "penilaianMedia" ?
+              //   <div className='d-flex pe-10 mt-10' style={{ justifyContent: 'end' }}>
+              //     <div className='btn btn-primary w-25'>
+              //       <span style={{ textAlign: 'center' }}>Kirim Jawaban</span>
+              //     </div>
+              //   </div>
+              //   :
+              <Footer
+                hasilSoal={hasilSoal}
+                setHasilSoal={setHasilSoal}
+                finalHasilSoal={finalHasilSoal}
+                setFinalHasilSoal={setFinalHasilSoal}
+              />
+            }
+          </>
       }
     </div>
   )

@@ -411,7 +411,6 @@ const IsiMateri: React.FC<Props> = ({
                 {
                   detailMateri?.status.toLowerCase() === "selesai" ?
                     <>
-
                       {
                         detailMateri.latihan.map((e, i) => {
                           return (

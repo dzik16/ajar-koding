@@ -6,9 +6,10 @@ import { CreateProfileSiswaType } from '../../interface/profile.siswa.interface'
 import { getAllSiswa, getProfileSiswa } from '../../api/Request/profile.siswa.api'
 import Lottie from 'lottie-react'
 import animLoading from '../../../_molekul/assets/loading/animLoading.json'
-import clsx from 'clsx'
 import { isEvaluasi } from '../../api/Request/materi.siswa.api'
 import Swal from 'sweetalert2'
+import { getEvaluasiByUUID } from '../../api/Request/evaluasi.siswa.api'
+import { penilaianMedia } from '../../interface/evaluasi/media.interface'
 
 const Evaluasi = () => {
   const navigate = useNavigate()
@@ -17,11 +18,19 @@ const Evaluasi = () => {
   const [profileSiswa, setProfileSiswa] = useState<CreateProfileSiswaType>()
   const [loading, setLoading] = useState<boolean>(false)
   const [listPeringkat, setListPeringkat] = useState<CreateProfileSiswaType[]>([])
+  const [status1, setStatus1] = useState<boolean>(false)
+  const [status2, setStatus2] = useState<boolean>(false)
+  const [status3, setStatus3] = useState<boolean>(false)
+  const [status4, setStatus4] = useState<boolean>(false)
+  const [status5, setStatus5] = useState<boolean>(false)
 
   useEffect(() => {
     onAuthStateChanged(auth, e => {
-      setUuid(e?.uid)
-      handleGetProfile(e?.uid)
+      if (e?.uid) {
+        setUuid(e.uid)
+        handleGetProfile(e.uid)
+        handleGetStatusEvaluasi(e.uid)
+      }
     })
   }, [uuid])
 
@@ -45,6 +54,39 @@ const Evaluasi = () => {
     } catch (error) {
       console.error(error);
       setLoading(false)
+    }
+  }
+
+  const handleGetStatusEvaluasi = async (uid: string) => {
+    if (uid) {
+      for (let i = 0; i < 5; i++) {
+        if (i === 0) {
+          const res = await getEvaluasiByUUID("pretest", uid)
+          if (res !== null) {
+            setStatus1(true)
+          }
+        } else if (i === 1) {
+          const res = await getEvaluasiByUUID("posttest", uid)
+          if (res !== null) {
+            setStatus2(true)
+          }
+        } else if (i === 2) {
+          const res = await getEvaluasiByUUID("preLogic", uid)
+          if (res !== null) {
+            setStatus3(true)
+          }
+        } else if (i === 3) {
+          const res = await getEvaluasiByUUID("postLogic", uid)
+          if (res !== null) {
+            setStatus4(true)
+          }
+        } else if (i === 4) {
+          const res = await getEvaluasiByUUID("penilaianMedia", uid)
+          if (res !== null) {
+            setStatus5(true)
+          }
+        }
+      }
     }
   }
 
@@ -171,7 +213,7 @@ const Evaluasi = () => {
                           </div>
                           <div className='p-5'>
                             <h3>Pre-Test</h3>
-                            <span className='badge badge-light-danger'>Belum Mulai</span>
+                            <span className={`badge ${status1 ? "badge-light-success" : "badge-light-danger"}`}>{status1 ? "Selesai" : "Belum Mulai"}</span>
                           </div>
                         </div>
                       </div>
@@ -185,7 +227,7 @@ const Evaluasi = () => {
                           </div>
                           <div className='p-5'>
                             <h3>Post-Test</h3>
-                            <span className='badge badge-light-danger'>Belum Mulai</span>
+                            <span className={`badge ${status2 ? "badge-light-success" : "badge-light-danger"}`}>{status2 ? "Selesai" : "Belum Mulai"}</span>
                           </div>
                         </div>
                       </div>
@@ -199,7 +241,7 @@ const Evaluasi = () => {
                           </div>
                           <div className='p-5'>
                             <h3>Pre Logic</h3>
-                            <span className='badge badge-light-danger'>Belum Mulai</span>
+                            <span className={`badge ${status3 ? "badge-light-success" : "badge-light-danger"}`}>{status3 ? "Selesai" : "Belum Mulai"}</span>
                           </div>
                         </div>
                       </div>
@@ -215,7 +257,7 @@ const Evaluasi = () => {
                           </div>
                           <div className='p-5'>
                             <h3>Post Logic</h3>
-                            <span className='badge badge-light-danger'>Belum Mulai</span>
+                            <span className={`badge ${status4 ? "badge-light-success" : "badge-light-danger"}`}>{status4 ? "Selesai" : "Belum Mulai"}</span>
                           </div>
                         </div>
                       </div>
@@ -228,7 +270,7 @@ const Evaluasi = () => {
                           </div>
                           <div className='p-5'>
                             <h3>Penilaian Media</h3>
-                            <span className='badge badge-light-danger'>Belum Mulai</span>
+                            <span className={`badge ${status5 ? "badge-light-success" : "badge-light-danger"}`}>{status5 ? "Selesai" : "Belum Mulai"}</span>
                           </div>
                         </div>
                       </div>

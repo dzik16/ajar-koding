@@ -57,7 +57,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/1.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>            
             </div>
@@ -130,7 +130,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/2.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>          
             </div>
@@ -202,7 +202,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/3.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -344,7 +344,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/4.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -355,7 +355,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/5.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -366,7 +366,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/6.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -377,7 +377,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/7.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -388,7 +388,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/8.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -553,7 +553,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/9.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -564,7 +564,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/10.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -575,7 +575,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/11.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -586,7 +586,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/12.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -597,7 +597,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/13.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -623,7 +623,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/14.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
               <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -707,7 +707,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/15.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -718,7 +718,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/16.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -729,7 +729,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/17.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -740,7 +740,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/18.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -751,7 +751,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/19.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
             </div>
@@ -842,7 +842,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/20.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
               <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -919,7 +919,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/21.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
               <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -996,7 +996,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/22.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
               <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -1073,7 +1073,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/23.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
               <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -1150,7 +1150,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/24.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
               <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -1227,7 +1227,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/26.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
               <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -1304,7 +1304,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/27.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
               <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -1319,7 +1319,7 @@ export const soalPretest: DataMateri[] = [
             <div style="font-family: Arial, sans-serif;">
               <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
                 <span style="font-size: 20px; text-align: justify;">
-                Diskon: 100%
+                Diskon: 70%
                 </span>
               </div>        
             </div>
@@ -1381,7 +1381,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/28.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
               <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -1458,7 +1458,7 @@ export const soalPretest: DataMateri[] = [
                 <img
                   alt="Logo"
                   src="/media/pretest/29.png"
-                  style="height: 100%; width: 100%;"
+                  style="height: 70%; width: 70%;"
                 />
               </div>
               <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">

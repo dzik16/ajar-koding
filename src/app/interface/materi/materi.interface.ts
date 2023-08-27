@@ -1928,6 +1928,17 @@ export interface HasilSoalType {
   textJawaban: string
 }
 
+export interface BodySendEvaluasi {
+  hasilSoal: HasilSoalType[]
+  poin: number
+}
+
+export interface HasilEvaluasiType {
+  name: string,
+  jawaban: number,
+  hasil: boolean,
+}
+
 export interface PertanyaanType {
   fullname: string,
   pertanyaan: string
