@@ -25,17 +25,19 @@ const DetailEvaluasi = () => {
   const auth = getAuth()
   const [loading, setLoading] = useState<boolean>(false)
 
+
   useEffect(() => {
+    //@ts-ignore
     onAuthStateChanged(auth, e => {
-      if (e?.uid) {
+      //@ts-ignore
+      if (e?.uid || location.state.uid) {
         setLoading(true)
-        setUuid(e.uid)
-        handleGetDetailMateri(e.uid)
+        setUuid(e?.uid)
+        //@ts-ignore
+        handleGetDetailMateri(location.state.uid ? location.state.uid : e.uid)
       }
     })
   }, [uuid])
-
-  console.log(hasilSoal);
 
   useEffect(() => {
     // @ts-ignore
@@ -92,6 +94,7 @@ const DetailEvaluasi = () => {
                 finalHasilSoal={finalHasilSoal}
                 setFinalHasilSoal={setFinalHasilSoal}
                 loading={loading}
+                setLoading={setLoading}
                 className='card-xxl-stretch mb-xl-3' />
             </div>
             {

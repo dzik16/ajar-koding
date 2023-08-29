@@ -30,6 +30,7 @@ const EvaluasiFile: FC = () => {
       handleGetProfile(e?.uid)
     })
   }, [page, noAbsen])
+  
 
   const handleGetProfile = async (uid: string | undefined) => {
     try {
@@ -45,7 +46,6 @@ const EvaluasiFile: FC = () => {
         }
       }
     } catch (error) {
-      console.error(error);
       setLoading(false)
     }
   }

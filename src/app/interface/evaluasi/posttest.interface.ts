@@ -56,7 +56,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/1.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>   
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -136,7 +136,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/2.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>   
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -215,7 +215,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/3.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -294,7 +294,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/4.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -373,7 +373,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/5.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -458,7 +458,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/6.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>           
               </div>
@@ -469,7 +469,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/7.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>           
               </div>
@@ -480,7 +480,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/8.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>           
               </div>
@@ -491,7 +491,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/9.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>           
               </div>
@@ -502,7 +502,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/10.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>           
               </div>
@@ -530,7 +530,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/11.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>  
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -609,7 +609,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/12.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>  
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -688,7 +688,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/13.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>  
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -767,7 +767,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/14.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>  
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -846,7 +846,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/15.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>  
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -925,7 +925,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/16.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>  
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -1004,7 +1004,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/17.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>  
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -1083,7 +1083,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/18.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>  
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -1162,7 +1162,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/19.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>  
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -1241,7 +1241,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/20.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>  
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -1320,7 +1320,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/21.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>  
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -1399,7 +1399,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/22.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>  
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -1478,7 +1478,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/23.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>  
                 <div style="display: flex; flex-direction: column; justify-content: center; margin-bottom: 20px;">
@@ -1588,7 +1588,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/24.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>            
               </div>
@@ -1599,7 +1599,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/25.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>            
               </div>
@@ -1610,7 +1610,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/26.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>            
               </div>
@@ -1621,7 +1621,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/27.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>            
               </div>
@@ -1632,7 +1632,7 @@ export interface listIsiMateri {
                   <img
                     alt="Logo"
                     src="/media/posttest/28.png"
-                    style="height: 100%; width: 100%;"
+                    style="height: 70%; width: 70%;"
                   />
                 </div>            
               </div>

@@ -283,7 +283,7 @@ const Evaluasi = () => {
                   <div className="d-flex row" style={{ justifyContent: 'center' }}>
                     <div className="card col-sm-4 p-0 rounded shadow-sm"
                       onClick={() =>
-                        navigate("/hasil/evaluasi", { state: { ke: 1 } })
+                        navigate("/hasil/evaluasi", { state: { ke: "1", type: "lkpd" } })
                         // navigate('/evaluasi/lkpd', { state: { page: "r.59bd020134faab4ae5fac989f158c6af?showControls", ke: "1" } })}
                       }
                       style={{ width: '30%', height: '200px', cursor: 'pointer' }}>
@@ -300,7 +300,7 @@ const Evaluasi = () => {
                       </div>
                     </div>
                     <div className="card col-sm-4 p-0 rounded shadow-sm ms-10 me-10"
-                      onClick={() => navigate("/hasil/evaluasi", { state: { ke: 2 } })}
+                      onClick={() => navigate("/hasil/evaluasi", { state: { ke: "2", type: "lkpd" } })}
                       style={{ width: '30%', height: '200px', cursor: 'pointer' }}>
                       <div className="card-body p-0">
                         <div className='d-flex rounded-top ' style={{ backgroundColor: '#08E138', height: '60%', justifyContent: 'center' }}>
@@ -320,7 +320,7 @@ const Evaluasi = () => {
                   <div className='mt-20'>
                     <h1 className='mb-10' style={{ fontSize: '30px' }}>Evaluasi Soal</h1>
                     <div className="d-flex row mt-10" style={{ justifyContent: 'center' }}>
-                      <div className="card col-sm-4 p-0 rounded shadow-sm me-5" onClick={() => navigate("/hasil/evaluasi")} style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
+                      <div className="card col-sm-4 p-0 rounded shadow-sm me-5" onClick={() => navigate("/hasil/evaluasi", { state: { ke: 1, type: "pretest" } })} style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
                         <div className="card-body p-0">
                           <div className='d-flex rounded-top ' style={{ backgroundColor: '#E1D808', height: '60%', justifyContent: 'center' }}>
                             <div className='me-5'>
@@ -334,7 +334,7 @@ const Evaluasi = () => {
                         </div>
                       </div>
 
-                      <div className="card col-sm-4 p-0 border rounded shadow-sm" onClick={() => navigate("/hasil/evaluasi")} style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
+                      <div className="card col-sm-4 p-0 border rounded shadow-sm" onClick={() => navigate("/hasil/evaluasi", { state: { ke: 1, type: "posttest" } })} style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
                         <div className="card-body p-0">
                           <div className='d-flex rounded-top ' style={{ backgroundColor: '#0893E1', height: '60%', justifyContent: 'center' }}>
                             <div className='me-5'>
@@ -348,7 +348,7 @@ const Evaluasi = () => {
                         </div>
                       </div>
 
-                      <div className="card col-sm-4 p-0 rounded shadow-sm ms-5" onClick={() => navigate("/hasil/evaluasi")} style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
+                      <div className="card col-sm-4 p-0 rounded shadow-sm ms-5" onClick={() => navigate("/hasil/evaluasi", { state: { ke: 1, type: "preLogic" } })} style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
                         <div className="card-body p-0">
                           <div className='d-flex rounded-top ' style={{ backgroundColor: '#E10856', height: '60%', justifyContent: 'center' }}>
                             <div className='me-5'>
@@ -364,7 +364,7 @@ const Evaluasi = () => {
                     </div>
 
                     <div className="d-flex row mt-10" style={{ justifyContent: 'center' }}>
-                      <div className="card col-sm-4 p-0 rounded shadow-sm me-5" onClick={() => navigate("/hasil/evaluasi")} style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
+                      <div className="card col-sm-4 p-0 rounded shadow-sm me-5" onClick={() => navigate("/hasil/evaluasi", { state: { ke: 1, type: "postLogic" } })} style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
                         <div className="card-body p-0">
                           <div className='d-flex rounded-top ' style={{ backgroundColor: '#E108B1', height: '60%', justifyContent: 'center' }}>
                             <div className='me-5'>
@@ -377,7 +377,7 @@ const Evaluasi = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="card col-sm-4 p-0 rounded shadow-sm ms-5" onClick={() => navigate("/hasil/evaluasi")} style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
+                      <div className="card col-sm-4 p-0 rounded shadow-sm ms-5" onClick={() => navigate("/hasil/evaluasi", { state: { ke: 1, type: "penilaianMedia" } })} style={{ width: '25%', height: '200px', cursor: 'pointer' }}>
                         <div className="card-body p-0">
                           <div className='d-flex rounded-top ' style={{ backgroundColor: '#08E138', height: '60%', justifyContent: 'center' }}>
                             <div className='me-5'>

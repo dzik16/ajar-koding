@@ -1,7 +1,7 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { CreateProfileSiswaType } from '../../../interface/profile.siswa.interface'
+import { CreateProfileSiswaType, ProfileSiswaType } from '../../../interface/profile.siswa.interface'
 import { getAllSiswa, getProfileSiswa } from '../../../api/Request/profile.siswa.api'
 import { toAbsoluteUrl } from '../../../../_molekul/helpers'
 
@@ -13,13 +13,16 @@ const HasilSiswa = () => {
   const location = useLocation<data>()
   const [profileSiswa, setProfileSiswa] = useState<CreateProfileSiswaType>()
   const [loading, setLoading] = useState<boolean>(false)
-  const [listPeringkat, setListPeringkat] = useState<CreateProfileSiswaType[]>([])
+  const [listPeringkat, setListPeringkat] = useState<ProfileSiswaType[]>([])
   const [ke, setKe] = useState<string>("")
+  const [type, setType] = useState<string>("")
 
 
   useEffect(() => {
     //@ts-ignore
     setKe(location.state.ke)
+    //@ts-ignore
+    setType(location.state.type)
     onAuthStateChanged(auth, e => {
       setUuid(e?.uid)
       handleGetProfile(e?.uid)
@@ -58,13 +61,16 @@ const HasilSiswa = () => {
         const la = Object.entries(res)
         la.map((e, i) => {
           const ha = Object.entries(e[1])
-          const body: CreateProfileSiswaType = {
+          console.log(la[i][0]);
+
+          const body: ProfileSiswaType = {
             name: ha[0][1].name,
             nomor_absen: ha[0][1].nomor_absen,
             type: ha[0][1].type,
             kelompok: ha[0][1].kelompok,
             email: ha[0][1].email,
-            imageProfile: ha[0][1].imageProfile
+            imageProfile: ha[0][1].imageProfile,
+            uid: la[i][0]
           }
           setListMateri(body)
         })
@@ -77,12 +83,20 @@ const HasilSiswa = () => {
     }
   }
 
-  const setListMateri = (list: CreateProfileSiswaType) => {
+  const setListMateri = (list: ProfileSiswaType) => {
     const found = listPeringkat.find((obj) => {
       return obj.name === list.name
     })
     if (!found) {
       listPeringkat.push(list)
+    }
+  }
+
+  const handleNavigate = (absen?: string, uid?: string) => {
+    if (type === "lkpd") {
+      navigate('/evaluasi/file', { state: { noAbsen: absen, ke: ke } })
+    } else {
+      navigate('/evaluasi/soal', { state: { materiParent: type, uid: uid } })
     }
   }
 
@@ -116,7 +130,7 @@ const HasilSiswa = () => {
                       <tr>
                         <td key={i}>
                           <div className='d-flex align-items-center'
-                            onClick={() => navigate('/evaluasi/file', { state: { noAbsen: e.nomor_absen.toString(), ke: ke } })}
+                            onClick={() => handleNavigate(e.nomor_absen.toString(), e.uid)}
                             style={{ cursor: 'pointer' }}
                           >
                             <div className='symbol symbol-45px me-5'>

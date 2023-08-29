@@ -18,4 +18,14 @@ export interface CreateProfileSiswaType {
   kelompok: string
 }
 
+export interface ProfileSiswaType {
+  name: string
+  nomor_absen: string
+  email: string
+  imageProfile: string
+  type: string
+  kelompok: string
+  uid: string
+}
+
 
