@@ -62,12 +62,10 @@ const DetailEvaluasi = () => {
       if (uid) {
         const res = await getEvaluasiByUUID(materiParent, uid)
         const ha = Object.entries(res);
-        if (res) {
+        // if (res) {
           setFinalHasilSoal(ha[0][1].hasilSoal)
-          if (res) {
-            setLoading(false)
-          }
-        }
+          setLoading(false)
+        // }
       }
     } catch (error) {
       setLoading(false)

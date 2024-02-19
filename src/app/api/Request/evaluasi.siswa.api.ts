@@ -7,13 +7,12 @@ export const sendEvaluasi = async (path: string, uid: string, props: BodySendEva
     method: 'POST',
     data: props
   })
-
   return data
 }
 
 export const getEvaluasiByUUID = async (path: string, uid: string): Promise<BodySendEvaluasi[]> => {
   const { data } = await BaseApi().request<BodySendEvaluasi[]>({
-    url: `/evaluasi/${path}/${uid}.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
+    url: `evaluasi/${path}/${uid}.json?auth=hB09j1EeteUxTJq9ybjjoEpxFg9k84a9KtOzkijK`,
     method: 'GET',
   })
 

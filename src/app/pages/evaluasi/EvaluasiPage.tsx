@@ -62,6 +62,8 @@ const Evaluasi = () => {
       for (let i = 0; i < 5; i++) {
         if (i === 0) {
           const res = await getEvaluasiByUUID("pretest", uid)
+          console.log(res);
+          
           if (res !== null) {
             setStatus1(true)
           }

@@ -84,7 +84,7 @@ const Aktivitas: React.FC<Props> = ({ className }) => {
                 <thead>
                   <tr className='border-0'>
                     <th className='p-0 min-w-400px'>Nama</th>
-                    <th className='p-0 min-w-200px'>Tanggal Mulai</th>
+                    {/* <th className='p-0 min-w-200px'>Tanggal Mulai</th> */}
                     <th className='p-0 min-w-200px'>Status</th>
                     {/* <th className='p-0 min-w-130px'>Progres</th> */}
                   </tr>
@@ -102,9 +102,9 @@ const Aktivitas: React.FC<Props> = ({ className }) => {
                             </span>
                           </td>
 
-                          <td className='p-0'>
+                          {/* <td className='p-0'>
                             <span className='text-muted fw-semibold d-block'>{e.tanggalMulai}</span>
-                          </td>
+                          </td> */}
 
                           <td className='text-start text-muted fw-semibold p-0'>
                             <span className={`badge ${e.status.toLowerCase() === "selesai" ? "badge-light-success" : "badge-light-warning"}`}>{e.status}</span>

@@ -5,13 +5,12 @@
  * components (e.g: `src/app/modules/Auth/pages/AuthPage`, `src/app/BasePage`).
  */
 
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom'
 import { PrivateRoutes } from './PrivateRoutes'
 import { ErrorsPage } from '../modules/errors/ErrorsPage'
 import { Logout, AuthPage, useAuth } from '../modules/auth'
 import { App } from '../App'
-import { getProfile } from '../helpers/ProfileHelpers'
 import { getAuth } from '../helpers/AuthHelpers'
 
 /**

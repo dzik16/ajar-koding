@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IsiMateri } from './components/IsiMateri';
 import { AccordionMateri } from './components/AccordionMateri';
 import { Footer } from './components/Footer';

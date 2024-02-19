@@ -490,7 +490,6 @@ const MateriPage = () => {
           </>
       }
     </div>
-
   )
 }
 
